@@ -57,9 +57,14 @@ async def main() -> None:
             "weather", {"city": INVALID_CITY, "units": "c", "lang": "en"}
         )
         text = "".join(getattr(b, "text", "") for b in result.content)
-        path = FIXTURES_DIR / f"{slug(INVALID_CITY)}.error.txt"
+        # Observed behavior: this server version swallows API errors and
+        # returns a degenerate all-zeros text with is_error=False. Save it
+        # exactly as observed so replay is faithful; only a genuine MCP error
+        # is stored as an .error.txt fixture.
+        suffix = ".error.txt" if result.is_error else ".txt"
+        path = FIXTURES_DIR / f"{slug(INVALID_CITY)}{suffix}"
         path.write_text(text, encoding="utf-8")
-        print(f"Saved error fixture {path.name} (is_error={result.is_error}): {text[:100]}")
+        print(f"Saved invalid-city fixture {path.name} (is_error={result.is_error}): {text[:80]!r}")
 
 
 if __name__ == "__main__":
