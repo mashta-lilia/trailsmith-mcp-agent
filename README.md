@@ -17,8 +17,8 @@ decision.
 
 ```powershell
 python -m venv .venv
-.venv\Scripts\pip install -r requirements.txt
-.venv\Scripts\python scripts\walkthrough.py demo\itinerary_storm.json --fixtures scenario_storm
+.\.venv\Scripts\pip install -r requirements.txt
+.\.venv\Scripts\python scripts\walkthrough.py demo\itinerary_storm.json --fixtures scenario_storm
 ```
 
 That runs the whole planning workflow against a recorded forecast — validate,
@@ -49,7 +49,7 @@ PowerShell, from the repo root:
 
 ```powershell
 python -m venv .venv
-.venv\Scripts\pip install -r requirements.txt
+.\.venv\Scripts\pip install -r requirements.txt
 go install github.com/mschneider82/mcp-openweather@latest
 New-Item -ItemType Directory -Force bin
 Copy-Item "$env:USERPROFILE\go\bin\mcp-openweather.exe" bin\
@@ -71,10 +71,10 @@ Nothing sensitive is committed.
 
 ## Independent start commands
 
-- **Custom MCP server (separate process):** `.venv\Scripts\python -m trailsmith_mcp`
-- **Agent:** `.venv\Scripts\python -m agent.runner demo\itinerary_clean.json`
-- Smoke tests: `.venv\Scripts\python scripts\smoke_custom_server.py` (discovers and
-  calls the custom server over stdio), `.venv\Scripts\python scripts\smoke_weather_server.py [city]`
+- **Custom MCP server (separate process):** `.\.venv\Scripts\python -m trailsmith_mcp`
+- **Agent:** `.\.venv\Scripts\python -m agent.runner demo\itinerary_clean.json`
+- Smoke tests: `.\.venv\Scripts\python scripts\smoke_custom_server.py` (discovers and
+  calls the custom server over stdio), `.\.venv\Scripts\python scripts\smoke_weather_server.py [city]`
   (existing server).
 
 The agent starts its own MCP connections; starting `trailsmith_mcp` manually
@@ -103,7 +103,7 @@ run.
 
 ## Fixtures and offline replay
 
-- Record genuine responses: `.venv\Scripts\python scripts\fetch_fixtures.py`
+- Record genuine responses: `.\.venv\Scripts\python scripts\fetch_fixtures.py`
   saves verbatim tool text to `fixtures/openweather/`. It also records the
   invalid-city response — which this server returns as a *successful* all-zeros
   body rather than an error, so it is saved as a normal `.txt`. There is no
@@ -115,7 +115,7 @@ run.
 
   ```powershell
   $env:REPLAY=1
-  .venv\Scripts\python -m agent.runner demo\itinerary_clean.json
+  .\.venv\Scripts\python -m agent.runner demo\itinerary_clean.json
   ```
 - **Storm scenario.** `no_go` risk requires a thunderstorm or severe conditions,
   which Carpathian forecasts frequently lack — on a calm day the agent correctly
@@ -127,7 +127,7 @@ run.
 
   ```powershell
   $env:REPLAY=1; $env:FIXTURE_SET="scenario_storm"
-  .venv\Scripts\python -m agent.runner demo\itinerary_storm.json
+  .\.venv\Scripts\python -m agent.runner demo\itinerary_storm.json
   ```
 
 ## Rate limits
@@ -151,7 +151,7 @@ count and dollar cost, and flags a run that stopped on a cap.
 ## Verifying the whole system
 
 ```powershell
-.venv\Scripts\python scripts\verify.py
+.\.venv\Scripts\python scripts\verify.py
 ```
 
 Runs 12 checks — both MCP connections and their tool discovery, process
@@ -162,7 +162,7 @@ regeneration, and the test suite. No Anthropic credentials needed.
 ## Tests
 
 ```
-.venv\Scripts\python -m pytest tests -q
+.\.venv\Scripts\python -m pytest tests -q
 ```
 
 45 unit tests cover validation rules, risk heuristics, graph search, logistics,

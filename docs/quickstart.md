@@ -12,7 +12,7 @@ including the storm case where the agent replans a dangerous day.
 **Prerequisites**
 - [ ] Python 3.12+ (tested on 3.13)
 - [ ] Go 1.21+ — only needed for step 4 (the live weather server)
-- [ ] Windows PowerShell. On macOS/Linux, replace `.venv\Scripts\python` with
+- [ ] Windows PowerShell. On macOS/Linux, replace `.\.venv\Scripts\python` with
       `.venv/bin/python` and `$env:X="y"` with `X=y`.
 
 Every command below was run against this repo; the output shown is real, trimmed
@@ -26,13 +26,13 @@ You only need Python for steps 1–3. Live weather comes later.
 
 ```powershell
 python -m venv .venv
-.venv\Scripts\pip install -r requirements.txt
+.\.venv\Scripts\pip install -r requirements.txt
 ```
 
 Verify:
 
 ```powershell
-.venv\Scripts\python -m pytest tests -q
+.\.venv\Scripts\python -m pytest tests -q
 ```
 
 ```
@@ -43,7 +43,7 @@ Verify:
 If those 40 pass, the domain logic and the forecast parser both work. Nothing
 below can be broken by configuration you haven't done yet.
 
-> **Tip**: use `.venv\Scripts\python` explicitly rather than activating the venv.
+> **Tip**: use `.\.venv\Scripts\python` explicitly rather than activating the venv.
 > With the venv unactivated, a bare `python` is the system interpreter and every
 > `import mcp` fails.
 
@@ -53,7 +53,7 @@ Before touching API keys, confirm the domain workflow end to end. This script
 calls the same rules in the same order as the agent, without an LLM:
 
 ```powershell
-.venv\Scripts\python scripts\walkthrough.py demo\itinerary_storm.json --fixtures scenario_storm
+.\.venv\Scripts\python scripts\walkthrough.py demo\itinerary_storm.json --fixtures scenario_storm
 ```
 
 ```
@@ -87,7 +87,7 @@ accepted it. That is the feedback loop the whole project is built around.
 Try the calm case for contrast — same route, genuine recorded forecast:
 
 ```powershell
-.venv\Scripts\python scripts\walkthrough.py demo\itinerary_storm.json
+.\.venv\Scripts\python scripts\walkthrough.py demo\itinerary_storm.json
 ```
 
 Every day comes back `ok`/`caution` and nothing is replanned. That is correct:
@@ -100,7 +100,7 @@ a synthetic input exists at all.)
 Terminal 1 — the server, alone, in its own process:
 
 ```powershell
-.venv\Scripts\python -m trailsmith_mcp
+.\.venv\Scripts\python -m trailsmith_mcp
 ```
 
 It prints **nothing** on success and waits on stdin. That is normal for a stdio
@@ -109,7 +109,7 @@ MCP server; there is no banner to look for.
 Terminal 2 — connect from a *separate* process and exercise it:
 
 ```powershell
-.venv\Scripts\python scripts\smoke_custom_server.py
+.\.venv\Scripts\python scripts\smoke_custom_server.py
 ```
 
 ```
@@ -171,7 +171,7 @@ Put your free [OpenWeatherMap](https://home.openweathermap.org/api_keys) key int
 until then the API returns 401.
 
 ```powershell
-.venv\Scripts\python scripts\smoke_weather_server.py "Vorokhta,UA"
+.\.venv\Scripts\python scripts\smoke_weather_server.py "Vorokhta,UA"
 ```
 
 ```
@@ -193,7 +193,7 @@ not active yet; see [troubleshooting](troubleshooting.md).
 Record fixtures so you can work offline afterwards:
 
 ```powershell
-.venv\Scripts\python scripts\fetch_fixtures.py
+.\.venv\Scripts\python scripts\fetch_fixtures.py
 ```
 
 ## Step 5: Run the agent
@@ -202,7 +202,7 @@ The agent needs Anthropic credentials — either `claude /login` in a terminal, 
 `ANTHROPIC_API_KEY` in `.env`.
 
 ```powershell
-.venv\Scripts\python -m agent.runner demo\itinerary_clean.json
+.\.venv\Scripts\python -m agent.runner demo\itinerary_clean.json
 ```
 
 You will see the workflow unfold in the log: the `validate_itinerary` call, then
@@ -214,7 +214,7 @@ To run entirely offline against recorded fixtures:
 
 ```powershell
 $env:REPLAY=1
-.venv\Scripts\python -m agent.runner demo\itinerary_clean.json
+.\.venv\Scripts\python -m agent.runner demo\itinerary_clean.json
 ```
 
 ## What you built

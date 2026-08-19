@@ -22,13 +22,33 @@ Everything except the agent works without this — use
 `scripts/walkthrough.py` (see [quickstart step 2](quickstart.md)) to exercise the
 full domain workflow meanwhile.
 
+### `The module '.venv' could not be loaded`
+
+```
+.\.venv\Scripts\python : The module '.venv' could not be loaded.
+    + CategoryInfo : ObjectNotFound: (.\.venv\Scripts\python:String) []
+```
+
+Misleading error: nothing is wrong with a module. **You are in the wrong
+directory.** PowerShell could not find `.\.venv\Scripts\python` as a path, so it
+fell back to trying to autoload a module by that name. The venv lives inside the
+`trailsmith` directory, not its parent:
+
+```powershell
+Set-Location C:\path\to\lab_kse\trailsmith
+.\.venv\Scripts\python scripts\refresh_demo.py
+```
+
+Confirm with `Test-Path .\.venv\Scripts\python.exe` — it must print `True`
+before any other command in this project will work.
+
 ### `ModuleNotFoundError: No module named 'mcp'`
 
 You are running the system Python instead of the venv. Use the interpreter
 explicitly:
 
 ```powershell
-.venv\Scripts\python -m agent.runner demo\itinerary_clean.json
+.\.venv\Scripts\python -m agent.runner demo\itinerary_clean.json
 ```
 
 This also affects the *server*: `scripts/smoke_custom_server.py` passes
@@ -91,7 +111,7 @@ Select-String -Path fixtures\openweather\vorokhta_ua.txt -Pattern "Date & Time" 
 Fix: bump every `date` in the demo files into the next five days, then re-record:
 
 ```powershell
-.venv\Scripts\python scripts\fetch_fixtures.py
+.\.venv\Scripts\python scripts\fetch_fixtures.py
 ```
 
 If you also want the storm scenario, regenerate it too — its modified condition
@@ -114,7 +134,7 @@ env-prefix. Set the variable first:
 
 ```powershell
 $env:REPLAY=1
-.venv\Scripts\python -m agent.runner demo\itinerary_clean.json
+.\.venv\Scripts\python -m agent.runner demo\itinerary_clean.json
 ```
 
 Also note `agent/runner.py` calls `load_dotenv()`, so a value in `.env` is loaded
@@ -169,7 +189,7 @@ infeasible, and it is deliberately distinguishable from a failure. Loosen
 Regenerate it — the file is committed, but this rebuilds it deterministically:
 
 ```powershell
-.venv\Scripts\python scripts\build_dataset.py
+.\.venv\Scripts\python scripts\build_dataset.py
 ```
 
 ```
@@ -200,10 +220,10 @@ Run the two smoke tests and the walkthrough — between them they isolate almost
 every layer:
 
 ```powershell
-.venv\Scripts\python -m pytest tests -q                          # domain logic + parser
-.venv\Scripts\python scripts\walkthrough.py demo\itinerary_clean.json   # full workflow, no auth
-.venv\Scripts\python scripts\smoke_custom_server.py              # custom MCP server over stdio
-.venv\Scripts\python scripts\smoke_weather_server.py "Vorokhta,UA"  # existing MCP server + API key
+.\.venv\Scripts\python -m pytest tests -q                          # domain logic + parser
+.\.venv\Scripts\python scripts\walkthrough.py demo\itinerary_clean.json   # full workflow, no auth
+.\.venv\Scripts\python scripts\smoke_custom_server.py              # custom MCP server over stdio
+.\.venv\Scripts\python scripts\smoke_weather_server.py "Vorokhta,UA"  # existing MCP server + API key
 ```
 
 The first failure in that list tells you which layer to look at.

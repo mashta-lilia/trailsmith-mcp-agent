@@ -2,7 +2,7 @@
 
 **Before you start**
 - `.env` filled in (`OWM_API_KEY`; plus `ANTHROPIC_API_KEY` or a fresh `claude /login`).
-- Run `.venv\Scripts\python scripts\refresh_demo.py`. It shifts the demo dates
+- Run `.\.venv\Scripts\python scripts\refresh_demo.py`. It shifts the demo dates
   into the forecast window, re-records the genuine fixtures, rebuilds the storm
   scenario against the new day-2 date, checks the storm still parses on every
   settlement, and prints every demo command. Doing these by hand invites the one
@@ -11,14 +11,17 @@
   serving calm weather. Outside the forecast window each day degrades to
   "weather unknown" — correct behaviour, but not the clean run you want to open
   with.
-- All commands below use `.venv\Scripts\python` explicitly. With the venv
+- Open every terminal **inside the repo's `trailsmith` directory** — `Set-Location <path>\trailsmith`. Run from the parent and PowerShell reports a confusing
+  "The module '.venv' could not be loaded". Sanity check:
+  `Test-Path .\.venv\Scripts\python.exe` must print `True`.
+- All commands below use `.\.venv\Scripts\python` explicitly. With the venv
   unactivated, bare `python` is the system interpreter and every import fails.
 
 ## 0:00-2:00 — Independent startup and architecture
 
-1. Terminal 1: `.venv\Scripts\python -m trailsmith_mcp` — the custom server
+1. Terminal 1: `.\.venv\Scripts\python -m trailsmith_mcp` — the custom server
    starts alone. It prints nothing on success, so:
-2. Terminal 2: `.venv\Scripts\python scripts\smoke_custom_server.py` — this is
+2. Terminal 2: `.\.venv\Scripts\python scripts\smoke_custom_server.py` — this is
    the visible proof: it connects from a *separate process* over stdio, lists all
    4 tools, makes one successful call and one structured-error call.
 3. Architecture: agent process (Claude Agent SDK) ↔ two stdio MCP server
@@ -31,7 +34,7 @@
 
 ## 2:00-5:00 — Existing MCP server in an agent flow
 
-4. `.venv\Scripts\python -m agent.runner demo\itinerary_clean.json`
+4. `.\.venv\Scripts\python -m agent.runner demo\itinerary_clean.json`
 5. Point at the log: `TOOL CALL mcp__weather__weather {"city": "Vorokhta,UA"...}`
    inside a day-assessor, then `parse_weather_text`, then
    `assess_segment_risk` — the forecast values flow into the risk score.
@@ -45,11 +48,13 @@
 7. The storm run, disclosed honestly:
    ```powershell
    $env:REPLAY=1; $env:FIXTURE_SET="scenario_storm"
-   .venv\Scripts\python -m agent.runner demo\itinerary_storm.json
+   .\.venv\Scripts\python -m agent.runner demo\itinerary_storm.json
    ```
    **State plainly:** no thunderstorm was forecast when the fixtures were
-   recorded, so `fixtures/scenario_storm/` contains one modified condition line
-   in an otherwise genuine recording. It is an *input*, not a canned answer —
+   recorded, so `fixtures/scenario_storm/` contains the genuine recordings with
+   the condition lines for day 2's date replaced by a thunderstorm (all four
+   settlements, because a day is assessed using the settlement its route ends
+   at). It is an *input*, not a canned answer —
    the parser, the risk heuristics and the replanning search all run for real on
    it (`fixtures/scenario_storm/README.md`).
 8. Narrate: validation passes → three `[day-N]` day-assessors spawn in one
@@ -77,7 +82,7 @@
 11. Offline replay of the genuine recordings:
     ```powershell
     $env:REPLAY=1; Remove-Item Env:\FIXTURE_SET -ErrorAction SilentlyContinue
-    .venv\Scripts\python -m agent.runner demo\itinerary_clean.json
+    .\.venv\Scripts\python -m agent.runner demo\itinerary_clean.json
     ```
     Show that `fixtures/openweather/*.txt` are verbatim recorded tool text.
 
@@ -107,5 +112,5 @@
 - **Cost/loop bounds:** `max_budget_usd=1.50`, `max_turns=30`, per-subagent
   `maxTurns`. Real SDK limits, not prompt text; the runner prints turns and cost.
 - **Known-limitation questions** are answered in `docs/design_rationale.md`:
-  keyword-estimated precipitation, today's wind used for every day, the coarse
-  `daylight_hours` month lookup, and the bounded alternative search.
+  keyword-estimated precipitation, today's wind reused for every day, terrain
+  shading ignored by the solar daylight model, and the bounded alternative search.

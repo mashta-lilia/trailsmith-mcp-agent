@@ -63,6 +63,6 @@ The commands and outputs in the quickstart were captured from real runs. To
 re-verify after a change:
 
 ```powershell
-.venv\Scripts\python scripts\verify.py    # 12 checks, no credentials needed
-.venv\Scripts\python scripts\walkthrough.py demo\itinerary_storm.json --fixtures scenario_storm
+.\.venv\Scripts\python scripts\verify.py    # 12 checks, no credentials needed
+.\.venv\Scripts\python scripts\walkthrough.py demo\itinerary_storm.json --fixtures scenario_storm
 ```
