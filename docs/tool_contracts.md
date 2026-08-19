@@ -37,10 +37,10 @@ result `{"status": "ok", "candidates": []}`, not an error.
 |---|---|
 | Name | `assess_segment_risk` |
 | Purpose | Compute a weather-conditioned risk score for one day's segments. Called by day-assessor subagents after they parse a forecast, and by replanner subagents to re-score candidates. |
-| Model-facing description | "Assess the risk of hiking a given day's trail segments under a provided weather summary. Combines segment exposure, altitude, and river crossings with wind, precipitation, temperature, and thunderstorm risk using explicit mountain-safety heuristics. Returns a 0-100 risk score, a band (ok/caution/no_go), and itemized factors. Set weather_known=false when no reliable forecast is available." |
-| Input schema | `segments: [string]` (required, min 1); `weather: {temp_min_c: -40..45, temp_max_c: -40..45, precip_mm: 0..500, wind_ms: 0..60, thunderstorm: bool}` (required); `weather_known: bool` (optional, default true) |
+| Model-facing description | "Assess the risk of hiking a given day's trail segments under a provided weather summary. Combines segment exposure, altitude, and river crossings with wind, precipitation, temperature, and thunderstorm risk using explicit mountain-safety heuristics. Returns a 0-100 risk score, a band (ok/caution/no_go), and itemized factors. When no reliable forecast is available, set weather_known=false and omit weather." |
+| Input schema | `segments: [string]` (required, min 1); `weather: {temp_min_c: -40..45, temp_max_c: -40..45, precip_mm: 0..500, wind_ms: 0..60, thunderstorm: bool}` (required when `weather_known` is true, omitted otherwise); `weather_known: bool` (optional, default true) |
 | Output schema | `{risk_score: int 0..100, band: "ok"\|"caution"\|"no_go", factors: [{rule, contribution, detail}]}`. Bands: <35 ok, 35-69 caution, >=70 no_go. Rules: `thunderstorm_on_exposed_ridge` (+60), `high_wind_on_open_terrain` (+30/45, halved on mixed terrain), `swollen_river_crossings` (+10/crossing, cap 30), `heavy_precipitation` (+20), `cold_at_altitude` (+15/30), `weather_unknown` (+40 → caution). |
-| Error conditions | `UNKNOWN_SEGMENT`; pydantic rejection for out-of-range weather values. |
+| Error conditions | `UNKNOWN_SEGMENT`; `MISSING_WEATHER` (weather omitted while weather_known=true); pydantic rejection for out-of-range weather values. |
 | Side effects | None. |
 | Example | Input: `["CH-001"]`, weather `wind_ms:18, thunderstorm:true, precip_mm:20` → Output: `risk_score: 90+, band: "no_go"`, factors include `thunderstorm_on_exposed_ridge` (+60). |
 

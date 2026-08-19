@@ -30,6 +30,11 @@ from .orchestrator import build_options  # noqa: E402
 
 START = time.monotonic()
 
+# The final report may contain non-ASCII (settlement names, degree signs);
+# Windows consoles often default to a legacy codepage.
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
 
 def log(line: str) -> None:
     print(f"[{time.monotonic() - START:7.1f}s] {line}", flush=True)

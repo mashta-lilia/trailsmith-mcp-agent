@@ -26,8 +26,8 @@ Steps, in order:
 2. Pass the FULL raw text output plus the target date to parse_weather_text.
 3. If parsing returned status "ok", call assess_segment_risk with the day's
    segments and the parsed weather (weather_known=true). If the weather call
-   failed or parsing returned an error, call assess_segment_risk with any
-   syntactically valid weather values and weather_known=false instead.
+   failed or parsing returned an error, call assess_segment_risk with only
+   the segments and weather_known=false (omit weather).
 4. Reply with EXACTLY one JSON object and nothing else:
    {"day": <n>, "date": "...", "settlement": "...",
     "weather_status": "ok"|"unavailable",

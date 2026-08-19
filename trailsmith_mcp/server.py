@@ -152,17 +152,24 @@ def validate_itinerary(itinerary: Itinerary, party: Party) -> ValidationResult:
         "river crossings with wind, precipitation, temperature, and "
         "thunderstorm risk using explicit mountain-safety heuristics. Returns "
         "a 0-100 risk score, a band (ok/caution/no_go), and itemized factors. "
-        "Set weather_known=false when no reliable forecast is available."
+        "When no reliable forecast is available, set weather_known=false and "
+        "omit weather."
     ),
 )
 def assess_segment_risk(
     segments: Annotated[list[str], Field(min_length=1)],
-    weather: WeatherSummary,
+    weather: WeatherSummary | None = None,
     weather_known: bool = True,
 ) -> RiskResult:
     _check_segments_exist(segments)
+    if weather_known and weather is None:
+        raise tool_error(
+            "MISSING_WEATHER",
+            "weather is required when weather_known is true; pass "
+            "weather_known=false when no reliable forecast is available.",
+        )
     result = rules.assess_risk(
-        get_dataset(), segments, weather.model_dump(), weather_known
+        get_dataset(), segments, weather.model_dump() if weather else {}, weather_known
     )
     return RiskResult(**result)
 
@@ -208,10 +215,13 @@ def suggest_alternative_segments(
     ),
 )
 def estimate_logistics(normalized_itinerary: dict[str, Any], party: Party) -> LogisticsResult:
+    import re
+
     days = normalized_itinerary.get("days")
     if not days or not all(
         isinstance(d, dict) and {"date", "segments", "total_km", "total_ascent_m",
                                  "ends_at_shelter"} <= d.keys()
+        and isinstance(d["date"], str) and re.fullmatch(r"\d{4}-\d{2}-\d{2}", d["date"])
         for d in days
     ):
         raise tool_error(

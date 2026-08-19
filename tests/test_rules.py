@@ -127,6 +127,42 @@ class TestSuggestAlternatives:
         assert all(c["ends_at_shelter"] for c in candidates)
 
 
+class TestServerErrorContracts:
+    """Errors must surface as structured {error_code,...} JSON, never raw tracebacks."""
+
+    @staticmethod
+    def _call(tool: str, args: dict):
+        import asyncio
+        from mcp.client import Client
+        from trailsmith_mcp.server import server
+
+        async def run():
+            async with Client(server) as client:
+                return await client.call_tool(tool, args)
+        return asyncio.run(run())
+
+    def test_malformed_date_returns_structured_error(self):
+        result = self._call("estimate_logistics", {
+            "normalized_itinerary": {"days": [{
+                "date": "garbage", "segments": ["CH-005"], "total_km": 5.0,
+                "total_ascent_m": 100, "ends_at_shelter": True}]},
+            "party": {"fitness": "moderate", "size": 2, "has_tent": True},
+        })
+        assert result.is_error
+        assert "NOT_NORMALIZED" in result.content[0].text
+
+    def test_missing_weather_returns_structured_error(self):
+        result = self._call("assess_segment_risk", {"segments": ["CH-001"]})
+        assert result.is_error
+        assert "MISSING_WEATHER" in result.content[0].text
+
+    def test_weather_unknown_without_weather_succeeds(self):
+        result = self._call("assess_segment_risk", {
+            "segments": ["CH-001"], "weather_known": False})
+        assert not result.is_error
+        assert result.structured_content["band"] == "caution"
+
+
 class TestEstimateLogistics:
     def test_logistics_for_validated_plan(self):
         itinerary = make_itinerary([["CH-005", "CH-004"], ["CH-022", "CH-014"]])

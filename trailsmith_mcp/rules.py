@@ -3,6 +3,8 @@ from __future__ import annotations
 
 from typing import Any
 
+import networkx as nx
+
 from .dataset import EXPOSURE_ORDER, TrailDataset
 
 # Per-day caps by party fitness.
@@ -189,8 +191,6 @@ def assess_risk(dataset: TrailDataset, segment_ids: list[str], weather: dict,
 
 def suggest_alternatives(dataset: TrailDataset, start_node: str, end_node: str,
                          constraints: dict, k: int) -> list[dict[str, Any]]:
-    import networkx as nx
-
     max_exposure = EXPOSURE_ORDER[constraints["max_exposure"]]
 
     def allowed(u: str, v: str) -> bool:
