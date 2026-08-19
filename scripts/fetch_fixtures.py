@@ -12,6 +12,7 @@ from __future__ import annotations
 import asyncio
 import os
 import re
+import time
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -52,6 +53,9 @@ async def main() -> None:
             path = FIXTURES_DIR / f"{slug(city)}.txt"
             path.write_text(text, encoding="utf-8")
             print(f"Saved {path.name} ({len(text)} chars)")
+            # Free tier allows 60 calls/min; stay well inside it even though
+            # this script only makes a handful of calls.
+            time.sleep(1.5)
 
         result = await client.call_tool(
             "weather", {"city": INVALID_CITY, "units": "c", "lang": "en"}

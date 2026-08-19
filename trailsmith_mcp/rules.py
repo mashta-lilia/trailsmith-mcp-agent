@@ -1,6 +1,8 @@
 """Domain rules: fitness caps, itinerary validation, risk heuristics, logistics."""
 from __future__ import annotations
 
+import math
+from datetime import date as _date
 from typing import Any
 
 import networkx as nx
@@ -323,15 +325,40 @@ def suggest_alternatives(dataset: TrailDataset, start_node: str, end_node: str,
     return deduped[:k]
 
 
+def daylight_hours(day_date: str, latitude: float) -> float:
+    """Daylight hours from solar declination at a latitude, for an ISO date.
+
+    Replaces a coarse per-month lookup: the sunrise/sunset spread on 20 August
+    differs materially from 1 May even though both fall in "summer", and the
+    margin against a day's hiking time is what actually matters.
+    """
+    parsed = _date.fromisoformat(day_date)
+    day_of_year = parsed.timetuple().tm_yday
+    # Cooper's equation for solar declination.
+    declination = math.radians(23.44) * math.sin(
+        2 * math.pi * (284 + day_of_year) / 365
+    )
+    phi = math.radians(latitude)
+    cos_omega = -math.tan(phi) * math.tan(declination)
+    if cos_omega >= 1:
+        return 0.0    # polar night
+    if cos_omega <= -1:
+        return 24.0   # midnight sun
+    omega = math.acos(cos_omega)
+    return round(2 * math.degrees(omega) / 15, 1)
+
+
 def estimate_logistics(dataset: TrailDataset, normalized_days: list[dict],
                        party: dict) -> dict[str, Any]:
     day_sheets: list[dict[str, Any]] = []
     water_warnings: list[str] = []
+    daylight_warnings: list[str] = []
     for index, day in enumerate(normalized_days, start=1):
         # Naismith's rule: 4 km/h plus 1 h per 600 m of ascent.
         hiking_h = round(day["total_km"] / 4 + day["total_ascent_m"] / 600, 1)
-        month = int(day["date"].split("-")[1])
-        daylight_h = 16 if 5 <= month <= 8 else 12 if month in (4, 9, 10) else 9
+        start = day.get("start_node")
+        latitude = dataset.nodes[start].lat if start in dataset.nodes else 48.1
+        daylight_h = daylight_hours(day["date"], latitude)
         margin_h = round(daylight_h - hiking_h, 1)
         crossings = sum(
             dataset.segments[s].river_crossings for s in day["segments"]
@@ -340,6 +367,11 @@ def estimate_logistics(dataset: TrailDataset, normalized_days: list[dict],
             water_warnings.append(
                 f"Day {index}: {day['total_km']} km with no river crossings; "
                 "carry full water supply."
+            )
+        if margin_h < 1.0:
+            daylight_warnings.append(
+                f"Day {index}: {hiking_h} h hiking against {daylight_h} h daylight "
+                f"leaves only {margin_h} h margin; start before dawn or shorten the day."
             )
         day_sheets.append({
             "day": index,
@@ -350,9 +382,21 @@ def estimate_logistics(dataset: TrailDataset, normalized_days: list[dict],
             "water_sources": crossings,
             "ends_at_shelter": day["ends_at_shelter"],
         })
+    total_hiking_h = sum(d["hiking_hours"] for d in day_sheets)
     return {
         "days": day_sheets,
         "food_days": len(normalized_days),
         "party_size": party["size"],
+        # 0.7 kg dry food per person-day; water carried only where there is no
+        # crossing to refill from, at 1 L per person per 4 h of hiking.
+        "food_kg": round(0.7 * party["size"] * len(normalized_days), 1),
+        "water_carry_litres": round(
+            sum(
+                d["hiking_hours"] / 4 * party["size"]
+                for d in day_sheets if d["water_sources"] == 0
+            ), 1,
+        ),
+        "total_hiking_hours": round(total_hiking_h, 1),
         "water_warnings": water_warnings,
+        "daylight_warnings": daylight_warnings,
     }

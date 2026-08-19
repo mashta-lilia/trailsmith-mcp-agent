@@ -19,6 +19,8 @@ class Node:
     name: str
     altitude_m: int
     nearest_settlement: str
+    lat: float
+    lon: float
 
 
 @dataclass(frozen=True)
@@ -59,11 +61,14 @@ class TrailDataset:
         for feature in raw["features"]:
             props = feature["properties"]
             if "node_id" in props:
+                lon, lat = feature["geometry"]["coordinates"]
                 self.nodes[props["node_id"]] = Node(
                     node_id=props["node_id"],
                     name=props["name"],
                     altitude_m=props["altitude_m"],
                     nearest_settlement=props["nearest_settlement"],
+                    lat=lat,
+                    lon=lon,
                 )
             else:
                 self.segments[props["segment_id"]] = Segment(**props)

@@ -175,8 +175,11 @@ class TestEstimateLogistics:
         )
         assert result["food_days"] == 2
         assert all(d["daylight_margin_hours"] > 0 for d in result["days"])
-        september_day = result["days"][0]
-        assert september_day["daylight_hours"] == 12
+        # Mid-September at 48 N is close to equinox: ~12.5 h, computed from
+        # solar declination rather than a per-month constant.
+        assert 12.0 < result["days"][0]["daylight_hours"] < 13.0
+        # Provisioning scales with the party, not just the day count.
+        assert result["food_kg"] == pytest.approx(0.7 * 4 * 2)
 
 
 class TestOrientationRegressions:
@@ -328,3 +331,48 @@ class TestContractHardening:
             "weather": {"temp_min_c": 40, "temp_max_c": 5, "precip_mm": 0,
                         "wind_ms": 2, "thunderstorm": False}})
         assert result.is_error
+
+
+class TestDaylightModel:
+    """Daylight comes from solar geometry, not a per-month lookup table."""
+
+    LAT = 48.16  # Chornohora
+
+    def test_solstices_and_equinox_are_physically_correct(self):
+        summer = rules.daylight_hours("2026-06-21", self.LAT)
+        winter = rules.daylight_hours("2026-12-21", self.LAT)
+        equinox = rules.daylight_hours("2026-03-20", self.LAT)
+        assert 15.5 < summer < 16.5
+        assert 7.5 < winter < 8.5
+        assert 11.5 < equinox < 12.5
+        assert summer > equinox > winter
+
+    def test_varies_within_a_single_month(self):
+        # The old three-branch lookup returned one constant for all of August.
+        early = rules.daylight_hours("2026-08-01", self.LAT)
+        late = rules.daylight_hours("2026-08-31", self.LAT)
+        assert early - late > 0.8, "August loses over an hour of daylight"
+
+    def test_higher_latitude_has_longer_summer_days(self):
+        assert (rules.daylight_hours("2026-06-21", 68.0)
+                > rules.daylight_hours("2026-06-21", 48.0))
+
+    def test_tight_daylight_margin_raises_a_warning(self):
+        # A high-fitness maximum day (24 km / 1600 m = 8.7 h) against 8.2 h of
+        # December daylight: the margin is negative and must be surfaced.
+        result = rules.estimate_logistics(DATASET, [{
+            "date": "2026-12-16", "segments": ["CH-020"], "start_node": "PETROS",
+            "total_km": 24.0, "total_ascent_m": 1600, "ends_at_shelter": True,
+        }], {"fitness": "high", "size": 3, "has_tent": True})
+        day = result["days"][0]
+        assert day["daylight_margin_hours"] < 0
+        assert result["daylight_warnings"], "negative daylight margin must warn"
+
+    def test_same_day_is_safe_in_summer(self):
+        # Identical distance in June has 15.9 h of daylight and must not warn.
+        result = rules.estimate_logistics(DATASET, [{
+            "date": "2026-06-21", "segments": ["CH-020"], "start_node": "PETROS",
+            "total_km": 24.0, "total_ascent_m": 1600, "ends_at_shelter": True,
+        }], {"fitness": "high", "size": 3, "has_tent": True})
+        assert result["days"][0]["daylight_margin_hours"] > 0
+        assert result["daylight_warnings"] == []

@@ -144,13 +144,24 @@ Cost guardrails (`agent/orchestrator.py`): `max_budget_usd=1.50` and
 SDK limits, not prompt instructions; `agent/runner.py` prints the run's turn
 count and dollar cost, and flags a run that stopped on a cap.
 
+## Verifying the whole system
+
+```powershell
+.venv\Scripts\python scripts\verify.py
+```
+
+Runs 12 checks — both MCP connections and their tool discovery, process
+separation, a successful call on each, structured-error vs empty-success,
+conservative degradation on an unusable forecast, byte-identical dataset
+regeneration, and the test suite. No Anthropic credentials needed.
+
 ## Tests
 
 ```
 .venv\Scripts\python -m pytest tests -q
 ```
 
-40 unit tests cover validation rules, risk heuristics, graph search, logistics,
+45 unit tests cover validation rules, risk heuristics, graph search, logistics,
 the forecast-text parser (including malformed input), and regression
 tests for every contract and correctness bug found during review.
 
@@ -172,6 +183,7 @@ Start at the **[documentation index](docs/README.md)**.
 
 | Script | Purpose |
 |---|---|
+| `scripts/verify.py` | One-command proof of the whole system: both MCP connections, process separation, error contracts, failure degradation, dataset reproducibility, tests |
 | `scripts/walkthrough.py` | Run the whole domain workflow deterministically, no LLM or credentials |
 | `scripts/smoke_custom_server.py` | Start the custom server in a separate process, list and call its tools |
 | `scripts/smoke_weather_server.py` | Call the existing OpenWeather MCP server (needs a key) |

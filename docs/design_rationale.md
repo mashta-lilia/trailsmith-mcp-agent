@@ -22,8 +22,11 @@ sheltered valley route). The connection is load-bearing, not decorative.
   dataset (NetworkX, built at server startup). The dataset lives with the
   server, so the search must too; the constrained contract (max km/ascent/
   exposure) keeps the model from requesting unbounded computation.
-- **`estimate_logistics`** derives hiking time, daylight margins, and water
-  data from dataset attributes; same locality argument.
+- **`estimate_logistics`** combines Naismith timing, solar-geometry daylight at
+  the route's own coordinates, and party-scaled provisioning — all of which need
+  the dataset's segment attributes and node latitudes, so it belongs with the
+  server. Its input type is the same published model that `validate_itinerary`
+  returns, which makes the two tools composable rather than merely adjacent.
 
 ## How the tool set supports the workflow
 
@@ -110,8 +113,11 @@ synthetic in its own README, in the top-level README, and in the defence script.
   order-independent.
 - **Wind is taken from the current-conditions block for every future day,**
   because forecast entries carry no wind. Day 5's wind is therefore today's wind.
-- **`daylight_hours` is a three-branch month lookup**, ignoring latitude and the
-  `Sunrise`/`Sunset` values the weather tool actually returns.
+- **`daylight_hours` is computed, not looked up.** It uses solar declination at
+  the latitude of the day's start node (from the dataset's own coordinates), so it
+  varies within a month and with latitude. It still ignores terrain shading and
+  the upstream `Sunrise`/`Sunset` fields, which would only matter for a
+  start-before-dawn decision.
 - **`estimate_logistics` cannot see validation status,** so it will cost an
   itinerary that was rejected on a hard violation. The workflow gate is the
   caller's responsibility.

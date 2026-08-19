@@ -58,19 +58,6 @@ class Violation(BaseModel):
     message: str
 
 
-class AppliedCaps(BaseModel):
-    fitness: Literal["low", "moderate", "high"]
-    max_km: float
-    max_ascent_m: int
-
-
-class ValidationResult(BaseModel):
-    status: Literal["ok", "invalid"]
-    normalized_itinerary: dict[str, Any]
-    violations: list[Violation]
-    applied_caps: AppliedCaps
-
-
 class NormalizedDay(BaseModel):
     """One day as returned by validate_itinerary. Extra keys are preserved."""
 
@@ -87,6 +74,21 @@ class NormalizedDay(BaseModel):
 
 class NormalizedItinerary(BaseModel):
     days: list[NormalizedDay] = Field(min_length=1, max_length=7)
+
+
+class AppliedCaps(BaseModel):
+    fitness: Literal["low", "moderate", "high"]
+    max_km: float
+    max_ascent_m: int
+
+
+class ValidationResult(BaseModel):
+    status: Literal["ok", "invalid"]
+    # Typed rather than dict[str, Any]: this object is the input to
+    # estimate_logistics, so the two tools share one published schema.
+    normalized_itinerary: NormalizedItinerary
+    violations: list[Violation]
+    applied_caps: AppliedCaps
 
 
 class WeatherSummary(BaseModel):
@@ -141,7 +143,7 @@ class LogisticsDay(BaseModel):
     day: int
     date: str
     hiking_hours: float
-    daylight_hours: int
+    daylight_hours: float
     daylight_margin_hours: float
     water_sources: int
     ends_at_shelter: bool
@@ -151,7 +153,11 @@ class LogisticsResult(BaseModel):
     days: list[LogisticsDay]
     food_days: int
     party_size: int
+    food_kg: float
+    water_carry_litres: float
+    total_hiking_hours: float
     water_warnings: list[str]
+    daylight_warnings: list[str]
 
 
 def _check_segments_exist(segment_ids: list[str]) -> None:
@@ -198,7 +204,10 @@ def validate_itinerary(itinerary: Itinerary, party: Party) -> ValidationResult:
     ),
 )
 def assess_segment_risk(
-    segments: Annotated[list[str], Field(min_length=1)],
+    segments: Annotated[
+        list[Annotated[str, Field(pattern=r"^CH-\d{3}$")]],
+        Field(min_length=1, max_length=20),
+    ],
     weather: WeatherSummary | None = None,
     weather_known: bool = True,
 ) -> RiskResult:

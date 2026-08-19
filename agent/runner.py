@@ -52,6 +52,9 @@ def build_prompt(request: dict) -> str:
 async def run(request: dict, replay: bool) -> None:
     options = build_options(replay=replay)
     log(f"Starting agent (replay={'on' if replay else 'off'})")
+    log("MCP connections: 'weather' (existing, separate process) | "
+        "'trailsmith' (custom, separate process) | "
+        "'agent_local' (in-process agent helper, not part of the custom server)")
     try:
         await _drive(build_prompt(request), options)
     except ClaudeSDKError as exc:
