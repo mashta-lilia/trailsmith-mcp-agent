@@ -58,6 +58,28 @@ non-hallucinated. It is registered under the name `agent_local` so a reader of
 the run log cannot mistake it for the custom server; a run therefore shows three
 MCP connections, of which two are the assignment's.
 
+## Fixtures: which set satisfies which requirement
+
+Two fixture sets exist, and the distinction is deliberate:
+
+- **`fixtures/openweather/` — the genuine recordings.** Captured verbatim from
+  the live `weather` tool by `scripts/fetch_fixtures.py`. These are what satisfy
+  the operational requirement for recorded genuine API responses with a
+  documented offline replay mode, and they are what `REPLAY=1` serves by default.
+  Replay preserves the normal parsing path: the same regex parser, the same range
+  validation, the same heuristics.
+- **`fixtures/scenario_storm/` — an additional synthetic test input.** One
+  `Conditions:` line altered in an otherwise genuine recording, so that the
+  `no_go` → replanning branch can be exercised deterministically. It exists
+  because `no_go` requires a thunderstorm and Carpathian forecasts frequently
+  have none; without it, half the workflow is unreachable on a calm day and
+  cannot be regression-tested at all.
+
+It is not a prewritten answer: no risk score, band, chosen route, or report text
+lives in the file. Everything downstream is genuinely computed. Deleting the
+directory changes which branch runs, not whether the code works. It is labelled
+synthetic in its own README, in the top-level README, and in the defence script.
+
 ## Trade-offs and known limitations
 
 - **Curated dataset vs. live OSM pipeline:** the dataset is manually curated
