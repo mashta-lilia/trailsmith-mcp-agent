@@ -1,0 +1,965 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.5364,
+          48.1636
+        ]
+      },
+      "properties": {
+        "node_id": "ZAROSLYAK",
+        "name": "Zaroslyak base",
+        "altitude_m": 1220,
+        "nearest_settlement": "Vorokhta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.5003,
+          48.1601
+        ]
+      },
+      "properties": {
+        "node_id": "HOVERLA",
+        "name": "Hoverla summit",
+        "altitude_m": 2061,
+        "nearest_settlement": "Yasinia"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.4726,
+          48.1846
+        ]
+      },
+      "properties": {
+        "node_id": "KOZMESHCHYK",
+        "name": "Kozmeshchyk clearing",
+        "altitude_m": 1240,
+        "nearest_settlement": "Yasinia"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.5169,
+          48.2364
+        ]
+      },
+      "properties": {
+        "node_id": "LAZESHCHYNA",
+        "name": "Lazeshchyna village",
+        "altitude_m": 682,
+        "nearest_settlement": "Yasinia"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.4139,
+          48.1728
+        ]
+      },
+      "properties": {
+        "node_id": "PETROS",
+        "name": "Petros summit",
+        "altitude_m": 2020,
+        "nearest_settlement": "Rakhiv"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.2811,
+          48.1461
+        ]
+      },
+      "properties": {
+        "node_id": "KVASY",
+        "name": "Kvasy village",
+        "altitude_m": 600,
+        "nearest_settlement": "Rakhiv"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.5106,
+          48.1494
+        ]
+      },
+      "properties": {
+        "node_id": "BRESKUL_SADDLE",
+        "name": "Breskul saddle",
+        "altitude_m": 1850,
+        "nearest_settlement": "Vorokhta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.5306,
+          48.1466
+        ]
+      },
+      "properties": {
+        "node_id": "POZHYZHEVSKA",
+        "name": "Pozhyzhevska meteo station",
+        "altitude_m": 1822,
+        "nearest_settlement": "Vorokhta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.5342,
+          48.1225
+        ]
+      },
+      "properties": {
+        "node_id": "NESAMOVYTE",
+        "name": "Lake Nesamovyte",
+        "altitude_m": 1750,
+        "nearest_settlement": "Vorokhta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.525,
+          48.1183
+        ]
+      },
+      "properties": {
+        "node_id": "TURKUL",
+        "name": "Turkul summit",
+        "altitude_m": 2036,
+        "nearest_settlement": "Vorokhta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.5697,
+          48.1094
+        ]
+      },
+      "properties": {
+        "node_id": "SHPYTSI",
+        "name": "Shpytsi rocks",
+        "altitude_m": 1863,
+        "nearest_settlement": "Verkhovyna"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.6117,
+          48.0653
+        ]
+      },
+      "properties": {
+        "node_id": "SMOTRYCH",
+        "name": "Smotrych summit",
+        "altitude_m": 1894,
+        "nearest_settlement": "Verkhovyna"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.6272,
+          48.0489
+        ]
+      },
+      "properties": {
+        "node_id": "POP_IVAN",
+        "name": "Pip Ivan summit (observatory)",
+        "altitude_m": 2028,
+        "nearest_settlement": "Verkhovyna"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.6503,
+          48.0561
+        ]
+      },
+      "properties": {
+        "node_id": "MARICHEIKA",
+        "name": "Lake Maricheika",
+        "altitude_m": 1510,
+        "nearest_settlement": "Verkhovyna"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.7092,
+          48.0208
+        ]
+      },
+      "properties": {
+        "node_id": "SHYBENE",
+        "name": "Shybene hamlet",
+        "altitude_m": 780,
+        "nearest_settlement": "Verkhovyna"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.55,
+          48.14
+        ]
+      },
+      "properties": {
+        "node_id": "FOREST_PRUT",
+        "name": "Prut valley trail junction",
+        "altitude_m": 1400,
+        "nearest_settlement": "Vorokhta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.63,
+          48.1069
+        ]
+      },
+      "properties": {
+        "node_id": "BYSTRETS",
+        "name": "Bystrets village",
+        "altitude_m": 900,
+        "nearest_settlement": "Verkhovyna"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.6636,
+          48.08
+        ]
+      },
+      "properties": {
+        "node_id": "DZEMBRONIA",
+        "name": "Dzembronia village",
+        "altitude_m": 850,
+        "nearest_settlement": "Verkhovyna"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            24.5364,
+            48.1636
+          ],
+          [
+            24.5003,
+            48.1601
+          ]
+        ]
+      },
+      "properties": {
+        "segment_id": "CH-001",
+        "from_node": "ZAROSLYAK",
+        "to_node": "HOVERLA",
+        "length_km": 4.2,
+        "ascent_m": 850,
+        "descent_m": 10,
+        "max_altitude_m": 2061,
+        "exposure": "exposed_ridge",
+        "river_crossings": 0,
+        "surface": "rocky"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            24.5003,
+            48.1601
+          ],
+          [
+            24.5106,
+            48.1494
+          ]
+        ]
+      },
+      "properties": {
+        "segment_id": "CH-002",
+        "from_node": "HOVERLA",
+        "to_node": "BRESKUL_SADDLE",
+        "length_km": 2.5,
+        "ascent_m": 120,
+        "descent_m": 330,
+        "max_altitude_m": 2061,
+        "exposure": "exposed_ridge",
+        "river_crossings": 0,
+        "surface": "rocky"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            24.5106,
+            48.1494
+          ],
+          [
+            24.5306,
+            48.1466
+          ]
+        ]
+      },
+      "properties": {
+        "segment_id": "CH-003",
+        "from_node": "BRESKUL_SADDLE",
+        "to_node": "POZHYZHEVSKA",
+        "length_km": 1.8,
+        "ascent_m": 90,
+        "descent_m": 120,
+        "max_altitude_m": 1911,
+        "exposure": "exposed_ridge",
+        "river_crossings": 0,
+        "surface": "grass"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            24.5306,
+            48.1466
+          ],
+          [
+            24.5342,
+            48.1225
+          ]
+        ]
+      },
+      "properties": {
+        "segment_id": "CH-004",
+        "from_node": "POZHYZHEVSKA",
+        "to_node": "NESAMOVYTE",
+        "length_km": 3.0,
+        "ascent_m": 150,
+        "descent_m": 220,
+        "max_altitude_m": 1880,
+        "exposure": "mixed",
+        "river_crossings": 0,
+        "surface": "grass"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            24.5364,
+            48.1636
+          ],
+          [
+            24.5306,
+            48.1466
+          ]
+        ]
+      },
+      "properties": {
+        "segment_id": "CH-005",
+        "from_node": "ZAROSLYAK",
+        "to_node": "POZHYZHEVSKA",
+        "length_km": 3.6,
+        "ascent_m": 640,
+        "descent_m": 40,
+        "max_altitude_m": 1822,
+        "exposure": "mixed",
+        "river_crossings": 0,
+        "surface": "forest"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            24.5364,
+            48.1636
+          ],
+          [
+            24.55,
+            48.14
+          ]
+        ]
+      },
+      "properties": {
+        "segment_id": "CH-006",
+        "from_node": "ZAROSLYAK",
+        "to_node": "FOREST_PRUT",
+        "length_km": 2.8,
+        "ascent_m": 200,
+        "descent_m": 20,
+        "max_altitude_m": 1400,
+        "exposure": "sheltered",
+        "river_crossings": 1,
+        "surface": "forest"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            24.55,
+            48.14
+          ],
+          [
+            24.5342,
+            48.1225
+          ]
+        ]
+      },
+      "properties": {
+        "segment_id": "CH-007",
+        "from_node": "FOREST_PRUT",
+        "to_node": "NESAMOVYTE",
+        "length_km": 3.4,
+        "ascent_m": 380,
+        "descent_m": 30,
+        "max_altitude_m": 1750,
+        "exposure": "sheltered",
+        "river_crossings": 1,
+        "surface": "forest"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            24.5342,
+            48.1225
+          ],
+          [
+            24.525,
+            48.1183
+          ]
+        ]
+      },
+      "properties": {
+        "segment_id": "CH-008",
+        "from_node": "NESAMOVYTE",
+        "to_node": "TURKUL",
+        "length_km": 1.6,
+        "ascent_m": 290,
+        "descent_m": 0,
+        "max_altitude_m": 2036,
+        "exposure": "exposed_ridge",
+        "river_crossings": 0,
+        "surface": "rocky"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            24.525,
+            48.1183
+          ],
+          [
+            24.5697,
+            48.1094
+          ]
+        ]
+      },
+      "properties": {
+        "segment_id": "CH-009",
+        "from_node": "TURKUL",
+        "to_node": "SHPYTSI",
+        "length_km": 3.2,
+        "ascent_m": 180,
+        "descent_m": 350,
+        "max_altitude_m": 2036,
+        "exposure": "exposed_ridge",
+        "river_crossings": 0,
+        "surface": "rocky"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            24.5697,
+            48.1094
+          ],
+          [
+            24.6117,
+            48.0653
+          ]
+        ]
+      },
+      "properties": {
+        "segment_id": "CH-010",
+        "from_node": "SHPYTSI",
+        "to_node": "SMOTRYCH",
+        "length_km": 4.8,
+        "ascent_m": 320,
+        "descent_m": 290,
+        "max_altitude_m": 1894,
+        "exposure": "exposed_ridge",
+        "river_crossings": 0,
+        "surface": "grass"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            24.6117,
+            48.0653
+          ],
+          [
+            24.6272,
+            48.0489
+          ]
+        ]
+      },
+      "properties": {
+        "segment_id": "CH-011",
+        "from_node": "SMOTRYCH",
+        "to_node": "POP_IVAN",
+        "length_km": 2.6,
+        "ascent_m": 240,
+        "descent_m": 100,
+        "max_altitude_m": 2028,
+        "exposure": "exposed_ridge",
+        "river_crossings": 0,
+        "surface": "rocky"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            24.6272,
+            48.0489
+          ],
+          [
+            24.6503,
+            48.0561
+          ]
+        ]
+      },
+      "properties": {
+        "segment_id": "CH-012",
+        "from_node": "POP_IVAN",
+        "to_node": "MARICHEIKA",
+        "length_km": 2.9,
+        "ascent_m": 20,
+        "descent_m": 540,
+        "max_altitude_m": 2028,
+        "exposure": "mixed",
+        "river_crossings": 0,
+        "surface": "grass"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            24.6503,
+            48.0561
+          ],
+          [
+            24.7092,
+            48.0208
+          ]
+        ]
+      },
+      "properties": {
+        "segment_id": "CH-013",
+        "from_node": "MARICHEIKA",
+        "to_node": "SHYBENE",
+        "length_km": 6.5,
+        "ascent_m": 60,
+        "descent_m": 790,
+        "max_altitude_m": 1510,
+        "exposure": "sheltered",
+        "river_crossings": 2,
+        "surface": "forest"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            24.5697,
+            48.1094
+          ],
+          [
+            24.63,
+            48.1069
+          ]
+        ]
+      },
+      "properties": {
+        "segment_id": "CH-014",
+        "from_node": "SHPYTSI",
+        "to_node": "BYSTRETS",
+        "length_km": 5.4,
+        "ascent_m": 30,
+        "descent_m": 990,
+        "max_altitude_m": 1863,
+        "exposure": "sheltered",
+        "river_crossings": 1,
+        "surface": "forest"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            24.63,
+            48.1069
+          ],
+          [
+            24.6636,
+            48.08
+          ]
+        ]
+      },
+      "properties": {
+        "segment_id": "CH-015",
+        "from_node": "BYSTRETS",
+        "to_node": "DZEMBRONIA",
+        "length_km": 4.6,
+        "ascent_m": 120,
+        "descent_m": 170,
+        "max_altitude_m": 950,
+        "exposure": "sheltered",
+        "river_crossings": 1,
+        "surface": "dirt road"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            24.6636,
+            48.08
+          ],
+          [
+            24.6117,
+            48.0653
+          ]
+        ]
+      },
+      "properties": {
+        "segment_id": "CH-016",
+        "from_node": "DZEMBRONIA",
+        "to_node": "SMOTRYCH",
+        "length_km": 5.8,
+        "ascent_m": 1060,
+        "descent_m": 20,
+        "max_altitude_m": 1894,
+        "exposure": "mixed",
+        "river_crossings": 0,
+        "surface": "forest"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            24.5003,
+            48.1601
+          ],
+          [
+            24.4726,
+            48.1846
+          ]
+        ]
+      },
+      "properties": {
+        "segment_id": "CH-017",
+        "from_node": "HOVERLA",
+        "to_node": "KOZMESHCHYK",
+        "length_km": 4.9,
+        "ascent_m": 40,
+        "descent_m": 860,
+        "max_altitude_m": 2061,
+        "exposure": "mixed",
+        "river_crossings": 0,
+        "surface": "forest"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            24.4726,
+            48.1846
+          ],
+          [
+            24.5169,
+            48.2364
+          ]
+        ]
+      },
+      "properties": {
+        "segment_id": "CH-018",
+        "from_node": "KOZMESHCHYK",
+        "to_node": "LAZESHCHYNA",
+        "length_km": 6.8,
+        "ascent_m": 30,
+        "descent_m": 590,
+        "max_altitude_m": 1240,
+        "exposure": "sheltered",
+        "river_crossings": 2,
+        "surface": "dirt road"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            24.4726,
+            48.1846
+          ],
+          [
+            24.4139,
+            48.1728
+          ]
+        ]
+      },
+      "properties": {
+        "segment_id": "CH-019",
+        "from_node": "KOZMESHCHYK",
+        "to_node": "PETROS",
+        "length_km": 5.6,
+        "ascent_m": 800,
+        "descent_m": 20,
+        "max_altitude_m": 2020,
+        "exposure": "exposed_ridge",
+        "river_crossings": 0,
+        "surface": "grass"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            24.4139,
+            48.1728
+          ],
+          [
+            24.2811,
+            48.1461
+          ]
+        ]
+      },
+      "properties": {
+        "segment_id": "CH-020",
+        "from_node": "PETROS",
+        "to_node": "KVASY",
+        "length_km": 7.9,
+        "ascent_m": 60,
+        "descent_m": 1470,
+        "max_altitude_m": 2020,
+        "exposure": "mixed",
+        "river_crossings": 1,
+        "surface": "forest"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            24.5003,
+            48.1601
+          ],
+          [
+            24.4139,
+            48.1728
+          ]
+        ]
+      },
+      "properties": {
+        "segment_id": "CH-021",
+        "from_node": "HOVERLA",
+        "to_node": "PETROS",
+        "length_km": 6.2,
+        "ascent_m": 620,
+        "descent_m": 660,
+        "max_altitude_m": 2061,
+        "exposure": "exposed_ridge",
+        "river_crossings": 0,
+        "surface": "grass"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            24.5342,
+            48.1225
+          ],
+          [
+            24.5697,
+            48.1094
+          ]
+        ]
+      },
+      "properties": {
+        "segment_id": "CH-022",
+        "from_node": "NESAMOVYTE",
+        "to_node": "SHPYTSI",
+        "length_km": 3.9,
+        "ascent_m": 200,
+        "descent_m": 240,
+        "max_altitude_m": 1900,
+        "exposure": "mixed",
+        "river_crossings": 0,
+        "surface": "grass"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            24.6636,
+            48.08
+          ],
+          [
+            24.6272,
+            48.0489
+          ]
+        ]
+      },
+      "properties": {
+        "segment_id": "CH-023",
+        "from_node": "DZEMBRONIA",
+        "to_node": "POP_IVAN",
+        "length_km": 7.2,
+        "ascent_m": 1190,
+        "descent_m": 30,
+        "max_altitude_m": 2028,
+        "exposure": "mixed",
+        "river_crossings": 1,
+        "surface": "forest"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            24.55,
+            48.14
+          ],
+          [
+            24.5306,
+            48.1466
+          ]
+        ]
+      },
+      "properties": {
+        "segment_id": "CH-024",
+        "from_node": "FOREST_PRUT",
+        "to_node": "POZHYZHEVSKA",
+        "length_km": 2.2,
+        "ascent_m": 430,
+        "descent_m": 10,
+        "max_altitude_m": 1822,
+        "exposure": "sheltered",
+        "river_crossings": 0,
+        "surface": "forest"
+      }
+    }
+  ]
+}

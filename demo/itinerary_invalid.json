@@ -1,0 +1,8 @@
+{
+  "itinerary": {
+    "days": [
+      {"date": "2026-08-20", "segments": ["CH-999", "CH-004"]}
+    ]
+  },
+  "party": {"fitness": "moderate", "size": 4, "has_tent": true}
+}
