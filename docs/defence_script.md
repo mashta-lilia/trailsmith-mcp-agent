@@ -2,10 +2,15 @@
 
 **Before you start**
 - `.env` filled in (`OWM_API_KEY`; plus `ANTHROPIC_API_KEY` or a fresh `claude /login`).
-- Bump every date in `demo/*.json` into the next 5 days, then re-run
-  `.venv\Scripts\python scripts\fetch_fixtures.py`. Outside the forecast window
-  every day degrades to "weather unknown", which is correct behaviour but not the
-  clean run you want to show.
+- Run `.venv\Scripts\python scripts\refresh_demo.py`. It shifts the demo dates
+  into the forecast window, re-records the genuine fixtures, rebuilds the storm
+  scenario against the new day-2 date, checks the storm still parses on every
+  settlement, and prints every demo command. Doing these by hand invites the one
+  trap that matters: the storm substitution is pinned to a date, so re-recording
+  fixtures without rebuilding the scenario leaves the replanning demo quietly
+  serving calm weather. Outside the forecast window each day degrades to
+  "weather unknown" — correct behaviour, but not the clean run you want to open
+  with.
 - All commands below use `.venv\Scripts\python` explicitly. With the venv
   unactivated, bare `python` is the system interpreter and every import fails.
 
