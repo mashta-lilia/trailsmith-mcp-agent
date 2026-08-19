@@ -23,6 +23,12 @@ a date, an ordered list of segment IDs, and a settlement name for the forecast.
 
 Steps, in order:
 1. Call the weather tool with the settlement as `city`, units "c", lang "en".
+   Pass the settlement string EXACTLY as you were given it and do NOT add
+   quotation marks around it. The weather tool's description mentions wrapping
+   values in double quotes for locations containing spaces; our settlement names
+   never contain spaces, and adding quotes makes the lookup fail silently - it
+   returns an all-zeros body rather than an error, which costs the day its
+   forecast. Correct: Vorokhta,UA   Wrong: "Vorokhta,UA"
 2. Pass the FULL raw text output plus the target date to parse_weather_text.
 3. If parsing returned status "ok", call assess_segment_risk with the day's
    segments and the parsed weather (weather_known=true). If the weather call
@@ -102,6 +108,10 @@ def build_options(replay: bool) -> ClaudeAgentOptions:
             "type": "stdio",
             "command": venv_python,
             "args": [str(REPO_ROOT / "scripts" / "replay_weather_server.py")],
+            # MCP stdio servers inherit only a whitelist of environment
+            # variables, so FIXTURE_SET must be forwarded explicitly or the
+            # replay server silently falls back to the genuine fixtures.
+            "env": {"FIXTURE_SET": os.environ.get("FIXTURE_SET", "openweather")},
         }
     else:
         weather_server = {

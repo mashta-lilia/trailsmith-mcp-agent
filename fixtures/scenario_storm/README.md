@@ -17,11 +17,21 @@ exercised reproducibly.
 
 ## How it was made
 
-`vorokhta_ua.txt` is the genuine `../openweather/vorokhta_ua.txt` recording with
-the `Conditions:` lines for **2026-08-21 only** replaced by
+Each file is the corresponding genuine recording from `../openweather/` with the
+`Conditions:` lines for **2026-08-21 only** replaced by
 `Thunderstorm thunderstorm with heavy rain`. Every other line — timestamps,
-temperatures, wind, pressure, all other dates, and all other settlements — is
-the unmodified genuine text.
+temperatures, wind, pressure, and every other date — is the unmodified genuine
+text.
+
+The substitution is applied to **all four settlements**, not just one. A day is
+assessed using the settlement its route ends at (day 2 of
+`demo/itinerary_storm.json` ends at BYSTRETS, which maps to `Verkhovyna,UA`), so
+storming a single city would leave the scenario dependent on which settlement a
+day happens to map to. A convective system covering the whole range on one day is
+also the meteorologically coherent version of this scenario.
+
+Regenerate it after re-recording fixtures or changing demo dates — the
+substitution is pinned to a specific date.
 
 ## Why this is not a hard-coded answer
 

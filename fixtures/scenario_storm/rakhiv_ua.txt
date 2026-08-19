@@ -72,49 +72,49 @@ High:        18.98
 Low:         18.98
 
 Date & Time: 2026-08-21 00:00:00 +0000 UTC
-Conditions:  Clouds broken clouds
+Conditions:  Thunderstorm thunderstorm with heavy rain
 Temp:        18.7 
 High:        18.7 
 Low:         18.7
 
 Date & Time: 2026-08-21 03:00:00 +0000 UTC
-Conditions:  Clear clear sky
+Conditions:  Thunderstorm thunderstorm with heavy rain
 Temp:        17.87 
 High:        17.87 
 Low:         17.87
 
 Date & Time: 2026-08-21 06:00:00 +0000 UTC
-Conditions:  Clouds few clouds
+Conditions:  Thunderstorm thunderstorm with heavy rain
 Temp:        22.71 
 High:        22.71 
 Low:         22.71
 
 Date & Time: 2026-08-21 09:00:00 +0000 UTC
-Conditions:  Clouds few clouds
+Conditions:  Thunderstorm thunderstorm with heavy rain
 Temp:        27.47 
 High:        27.47 
 Low:         27.47
 
 Date & Time: 2026-08-21 12:00:00 +0000 UTC
-Conditions:  Clouds scattered clouds
+Conditions:  Thunderstorm thunderstorm with heavy rain
 Temp:        28.25 
 High:        28.25 
 Low:         28.25
 
 Date & Time: 2026-08-21 15:00:00 +0000 UTC
-Conditions:  Clouds scattered clouds
+Conditions:  Thunderstorm thunderstorm with heavy rain
 Temp:        27.52 
 High:        27.52 
 Low:         27.52
 
 Date & Time: 2026-08-21 18:00:00 +0000 UTC
-Conditions:  Clouds scattered clouds
+Conditions:  Thunderstorm thunderstorm with heavy rain
 Temp:        20.94 
 High:        20.94 
 Low:         20.94
 
 Date & Time: 2026-08-21 21:00:00 +0000 UTC
-Conditions:  Clear clear sky
+Conditions:  Thunderstorm thunderstorm with heavy rain
 Temp:        19.48 
 High:        19.48 
 Low:         19.48

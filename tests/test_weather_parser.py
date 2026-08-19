@@ -65,3 +65,27 @@ class TestParseWeatherText:
         with pytest.raises(WeatherParseError) as excinfo:
             parse_weather_text(broken, "2026-09-12")
         assert excinfo.value.code == "IMPLAUSIBLE_VALUE"
+
+
+class TestExcerptJustifiesTheScore:
+    """The excerpt is the value trace: every number it shows must be the number
+    that was scored, with its provenance stated."""
+
+    def test_excerpt_reports_the_aggregated_range_not_one_entry(self):
+        summary = parse_weather_text(SAMPLE, "2026-09-12")
+        assert f"low={summary.temp_min_c}" in summary.excerpt
+        assert f"high={summary.temp_max_c}" in summary.excerpt
+
+    def test_excerpt_reports_precip_and_wind_actually_scored(self):
+        summary = parse_weather_text(SAMPLE, "2026-09-12")
+        assert f"precip={summary.precip_mm} mm" in summary.excerpt
+        assert f"wind={summary.wind_ms} m/s" in summary.excerpt
+
+    def test_excerpt_states_provenance_of_derived_values(self):
+        summary = parse_weather_text(SAMPLE, "2026-09-12")
+        assert "estimated from condition keywords" in summary.excerpt
+        assert "current-conditions block" in summary.excerpt
+
+    def test_excerpt_says_how_many_entries_were_aggregated(self):
+        # 2026-09-12 has two 3-hour entries in SAMPLE.
+        assert "2 forecast entries" in parse_weather_text(SAMPLE, "2026-09-12").excerpt

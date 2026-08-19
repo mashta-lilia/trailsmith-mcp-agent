@@ -98,20 +98,28 @@ def parse_weather_text(text: str, target_date: str) -> WeatherSummary:
             "MISSING_WIND", "No 'Wind Speed' field found in the tool output."
         )
 
-    # Built here from matched groups rather than letting the model copy arbitrary
-    # raw text into its report: keeps the value trace honest and bounded.
     worst = max(entries, key=lambda m: _estimate_precip([m.group("conditions")]))
+    precip = _estimate_precip(conditions)
+    wind = float(wind_match.group(1))
+
+    # The excerpt must justify the numbers that were actually scored, and say
+    # where each came from. Quoting a single 3-hour entry would understate the
+    # day's range and leave precipitation unexplained.
     excerpt = (
-        f"{target_date} conditions={worst.group('conditions').strip()[:60]!r} "
-        f"low={worst.group('low')} high={worst.group('high')} "
-        f"wind={wind_match.group(1)}"
+        f"{target_date}: {len(entries)} forecast entries; "
+        f"worst conditions={worst.group('conditions').strip()[:60]!r}; "
+        f"day range low={min(lows)} high={max(highs)} (min/max across entries); "
+        f"precip={precip} mm (estimated from condition keywords - the forecast "
+        f"carries no precipitation figure); "
+        f"wind={wind} m/s (from the current-conditions block, which is the only "
+        f"wind the tool reports)"
     )
 
     summary = WeatherSummary(
         temp_min_c=min(lows),
         temp_max_c=max(highs),
-        precip_mm=_estimate_precip(conditions),
-        wind_ms=float(wind_match.group(1)),
+        precip_mm=precip,
+        wind_ms=wind,
         thunderstorm=any("thunder" in c.lower() for c in conditions),
         excerpt=excerpt,
     )

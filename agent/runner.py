@@ -51,7 +51,9 @@ def build_prompt(request: dict) -> str:
 
 async def run(request: dict, replay: bool) -> None:
     options = build_options(replay=replay)
-    log(f"Starting agent (replay={'on' if replay else 'off'})")
+    fixture_set = os.environ.get("FIXTURE_SET", "openweather")
+    mode = f"replay from fixtures/{fixture_set}" if replay else "live OpenWeather API"
+    log(f"Starting agent ({mode})")
     log("MCP connections: 'weather' (existing, separate process) | "
         "'trailsmith' (custom, separate process) | "
         "'agent_local' (in-process agent helper, not part of the custom server)")
@@ -67,6 +69,9 @@ async def run(request: dict, replay: bool) -> None:
 
 
 async def _drive(prompt: str, options) -> None:
+    # Subagent completions also arrive as ResultMessage, so keep only the last
+    # one and print the report once at the end instead of on every completion.
+    final: ResultMessage | None = None
     async for message in query(prompt=prompt, options=options):
         if isinstance(message, AssistantMessage):
             for block in message.content:
@@ -74,18 +79,24 @@ async def _drive(prompt: str, options) -> None:
                     brief = json.dumps(block.input)[:160]
                     log(f"TOOL CALL {block.name} {brief}")
                 elif isinstance(block, TextBlock) and block.text.strip():
-                    log(f"AGENT: {block.text.strip()}")
+                    # Progress preview only; the full text is printed once below.
+                    preview = " ".join(block.text.strip().split())
+                    log(f"AGENT: {preview[:200]}{'...' if len(preview) > 200 else ''}")
         elif isinstance(message, ResultMessage):
-            cost = message.total_cost_usd
-            cost_text = f"${cost:.4f}" if cost is not None else "n/a"
-            log(
-                f"--- FINAL RESULT (subtype={message.subtype}, "
-                f"turns={message.num_turns}, cost={cost_text}) ---"
-            )
-            if message.subtype != "success":
-                log(f"RUN STOPPED EARLY: {message.subtype} - budget or turn "
-                    "cap reached, this is not a completed model answer.")
-            print(message.result)
+            final = message
+
+    if final is None:
+        log("Run ended with no result message.")
+        return
+
+    cost = final.total_cost_usd
+    cost_text = f"${cost:.4f}" if cost is not None else "n/a"
+    log(f"--- FINAL REPORT (subtype={final.subtype}, "
+        f"turns={final.num_turns}, cost={cost_text}) ---")
+    if final.subtype != "success":
+        log(f"RUN STOPPED EARLY: {final.subtype} - budget or turn cap reached, "
+            "this is not a completed model answer.")
+    print(final.result)
 
 
 def main() -> None:
