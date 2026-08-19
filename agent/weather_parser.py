@@ -24,13 +24,14 @@ PRECIP_ESTIMATES: list[tuple[str, float]] = [
     ("drizzle", 4.0),
 ]
 
+# Anchored to single lines: an entry missing a field must fail to match rather
+# than run on into the next entry and silently borrow its temperatures.
 _ENTRY_RE = re.compile(
-    r"Date & Time:\s*(?P<date>\d{4}-\d{2}-\d{2})\s+\S+.*?"
+    r"Date & Time:\s*(?P<date>\d{4}-\d{2}-\d{2})[^\n]*\n\s*"
     r"Conditions:\s*(?P<conditions>[^\n]*)\n\s*"
-    r"Temp:\s*(?P<temp>-?\d+(?:\.\d+)?).*?"
-    r"High:\s*(?P<high>-?\d+(?:\.\d+)?).*?"
-    r"Low:\s*(?P<low>-?\d+(?:\.\d+)?)",
-    re.DOTALL,
+    r"Temp:\s*(?P<temp>-?\d+(?:\.\d+)?)[^\n]*\n\s*"
+    r"High:\s*(?P<high>-?\d+(?:\.\d+)?)[^\n]*\n\s*"
+    r"Low:\s*(?P<low>-?\d+(?:\.\d+)?)"
 )
 _WIND_RE = re.compile(r"Wind Speed:\s*(-?\d+(?:\.\d+)?)")
 
@@ -48,23 +49,28 @@ class WeatherSummary:
     precip_mm: float
     wind_ms: float
     thunderstorm: bool
+    excerpt: str = ""
 
-    def as_dict(self) -> dict[str, float | bool]:
+    def as_dict(self) -> dict[str, float | bool | str]:
         return {
             "temp_min_c": self.temp_min_c,
             "temp_max_c": self.temp_max_c,
             "precip_mm": self.precip_mm,
             "wind_ms": self.wind_ms,
             "thunderstorm": self.thunderstorm,
+            "excerpt": self.excerpt,
         }
+
+    def risk_input(self) -> dict[str, float | bool]:
+        """The five numeric fields assess_segment_risk accepts (no excerpt)."""
+        return {k: v for k, v in self.as_dict().items() if k != "excerpt"}
 
 
 def _estimate_precip(conditions: list[str]) -> float:
+    """Worst matching keyword wins, so the estimate is order-independent."""
     joined = " ".join(conditions).lower()
-    for keyword, mm in PRECIP_ESTIMATES:
-        if keyword in joined:
-            return mm
-    return 0.0
+    matches = [mm for keyword, mm in PRECIP_ESTIMATES if keyword in joined]
+    return max(matches) if matches else 0.0
 
 
 def parse_weather_text(text: str, target_date: str) -> WeatherSummary:
@@ -92,12 +98,22 @@ def parse_weather_text(text: str, target_date: str) -> WeatherSummary:
             "MISSING_WIND", "No 'Wind Speed' field found in the tool output."
         )
 
+    # Built here from matched groups rather than letting the model copy arbitrary
+    # raw text into its report: keeps the value trace honest and bounded.
+    worst = max(entries, key=lambda m: _estimate_precip([m.group("conditions")]))
+    excerpt = (
+        f"{target_date} conditions={worst.group('conditions').strip()[:60]!r} "
+        f"low={worst.group('low')} high={worst.group('high')} "
+        f"wind={wind_match.group(1)}"
+    )
+
     summary = WeatherSummary(
         temp_min_c=min(lows),
         temp_max_c=max(highs),
         precip_mm=_estimate_precip(conditions),
         wind_ms=float(wind_match.group(1)),
         thunderstorm=any("thunder" in c.lower() for c in conditions),
+        excerpt=excerpt,
     )
 
     for name, value, (lo, hi) in (

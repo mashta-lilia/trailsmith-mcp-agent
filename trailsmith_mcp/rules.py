@@ -16,6 +16,9 @@ FITNESS_CAPS: dict[str, dict[str, float]] = {
 
 RISK_BANDS = [(70, "no_go"), (35, "caution"), (0, "ok")]
 
+# Simple paths enumerated per target before giving up (see suggest_alternatives).
+MAX_PATHS_SCANNED = 20
+
 
 def band_for(score: int) -> str:
     for threshold, band in RISK_BANDS:
@@ -50,6 +53,14 @@ def validate_itinerary(dataset: TrailDataset, itinerary: dict, party: dict) -> d
     normalized_days: list[dict[str, Any]] = []
     prev_end: str | None = None
 
+    dates = [d["date"] for d in itinerary["days"]]
+    for i in range(1, len(dates)):
+        if dates[i] <= dates[i - 1]:
+            violations.append({
+                "code": "DATE_SEQUENCE_INVALID", "severity": "hard", "day": i + 1,
+                "message": f"Day {i + 1} date {dates[i]} is not after {dates[i - 1]}.",
+            })
+
     for index, day in enumerate(itinerary["days"], start=1):
         segment_ids = day["segments"]
         endpoints = dataset.chain_endpoints(segment_ids)
@@ -60,14 +71,24 @@ def validate_itinerary(dataset: TrailDataset, itinerary: dict, party: dict) -> d
                 "day": index,
                 "message": f"Day {index} segments do not form a connected chain.",
             })
-            normalized_days.append({"date": day["date"], "segments": segment_ids})
+            normalized_days.append({
+                "date": day["date"], "segments": segment_ids,
+                "start_node": None, "end_node": None,
+                "start_settlement": None, "end_settlement": None,
+                "total_km": 0.0, "total_ascent_m": 0, "max_altitude_m": 0,
+                "ends_at_shelter": False,
+            })
             prev_end = None
             continue
 
         start, end = endpoints
         # Orient the chain to continue from the previous day when possible.
+        # The segment list must be reversed too: walk_chain consumes it in
+        # order, so swapping only the endpoint labels would cost the day in the
+        # wrong direction and produce an impossible start == end.
         if prev_end is not None and start != prev_end and end == prev_end:
-            start, end = end, start
+            segment_ids = list(reversed(segment_ids))
+            start = prev_end
         if prev_end is not None and start != prev_end:
             violations.append({
                 "code": "DAY_BOUNDARY_GAP",
@@ -114,9 +135,12 @@ def validate_itinerary(dataset: TrailDataset, itinerary: dict, party: dict) -> d
 
         normalized_days.append({
             "date": day["date"],
+            # Reflects the orientation actually costed, which may be reversed
+            # relative to the caller's input.
             "segments": segment_ids,
             "start_node": start,
             "end_node": end,
+            "start_settlement": dataset.nodes[start].nearest_settlement,
             "end_settlement": dataset.nodes[end].nearest_settlement,
             **{k: v for k, v in stats.items() if k != "end"},
             "ends_at_shelter": dataset.has_shelter(end),
@@ -128,6 +152,13 @@ def validate_itinerary(dataset: TrailDataset, itinerary: dict, party: dict) -> d
         "status": status,
         "normalized_itinerary": {"days": normalized_days},
         "violations": violations,
+        # Published so callers (and the replanner subagent) use the same caps
+        # the server applied, instead of inventing constraint values.
+        "applied_caps": {
+            "fitness": party["fitness"],
+            "max_km": caps["max_km"],
+            "max_ascent_m": caps["max_ascent_m"],
+        },
     }
 
 
@@ -148,13 +179,37 @@ def assess_risk(dataset: TrailDataset, segment_ids: list[str], weather: dict,
         score = min(100, sum(f["contribution"] for f in factors))
         return {"risk_score": score, "band": band_for(score), "factors": factors}
 
-    if weather.get("thunderstorm") and worst_exposure == 2:
-        factors.append({
-            "rule": "thunderstorm_on_exposed_ridge",
-            "contribution": 60,
-            "detail": "Thunderstorm forecast while the route crosses an exposed ridge.",
-        })
     wind = weather["wind_ms"]
+
+    # Exposure-scaled rather than all-or-nothing: a thunderstorm on an exposed
+    # 2000 m ridge is the textbook no-go and must clear the band threshold on
+    # its own, but a storm still matters in forest.
+    if weather.get("thunderstorm"):
+        contribution = (10, 30, 70)[worst_exposure]
+        factors.append({
+            "rule": f"thunderstorm_on_{('sheltered', 'mixed', 'exposed_ridge')[worst_exposure]}",
+            "contribution": contribution,
+            "detail": (
+                "Thunderstorm forecast on "
+                f"{('sheltered terrain', 'partly open terrain', 'an exposed ridge')[worst_exposure]}."
+            ),
+        })
+
+    # Floor terms: severe conditions are dangerous at ANY exposure, so these are
+    # deliberately not gated on terrain.
+    if wind >= 25:
+        factors.append({
+            "rule": "severe_wind_any_terrain",
+            "contribution": 50,
+            "detail": f"Wind {wind} m/s is dangerous regardless of terrain.",
+        })
+    if weather["temp_min_c"] < -20:
+        factors.append({
+            "rule": "extreme_cold_any_terrain",
+            "contribution": 50,
+            "detail": f"Minimum {weather['temp_min_c']} C risks cold injury regardless of terrain.",
+        })
+
     if worst_exposure >= 1 and wind >= 15:
         contribution = 45 if wind >= 20 else 30
         if worst_exposure == 1:
@@ -176,6 +231,18 @@ def assess_risk(dataset: TrailDataset, segment_ids: list[str], weather: dict,
             "rule": "heavy_precipitation",
             "contribution": 20,
             "detail": f"Heavy precipitation ({precip} mm) forecast.",
+        })
+    # Precipitation previously only mattered via river crossings, which ignored
+    # the classic Chornohora hazard: rain on a high exposed ridge means wet rock,
+    # fog, and no escape from wind chill.
+    if precip >= 10 and worst_exposure == 2 and max_alt > 1800:
+        factors.append({
+            "rule": "wet_exposed_ridge",
+            "contribution": 35,
+            "detail": (
+                f"{precip} mm precipitation on an exposed ridge at {max_alt} m: "
+                "wet rock, poor visibility, no shelter."
+            ),
         })
     temp_min = weather["temp_min_c"]
     if temp_min < -5 and max_alt > 1800:
@@ -210,18 +277,25 @@ def suggest_alternatives(dataset: TrailDataset, start_node: str, end_node: str,
             # NetworkXNoPath is raised lazily during iteration, so the loop
             # itself must sit inside the try block.
             paths = nx.shortest_simple_paths(subgraph, start_node, target, weight="weight")
+            accepted = 0
             for path_index, path in enumerate(paths):
-                if path_index >= 3:  # bound the per-target search
+                # Scan bound is separate from the accept count: ascent is NOT
+                # monotone in path length, so truncating the scan at k would
+                # hide a longer-but-flatter route that satisfies the caps.
+                if path_index >= MAX_PATHS_SCANNED or accepted >= k:
                     break
                 segment_ids = [
                     dataset.graph.edges[u, v]["segment"].segment_id
                     for u, v in zip(path, path[1:])
                 ]
+                if not segment_ids:
+                    continue  # degenerate start == end path
                 stats = walk_chain(dataset, segment_ids, path[0])
                 if stats["total_km"] > constraints["max_km"]:
-                    continue
+                    break  # paths arrive in increasing length; all later ones bust it too
                 if stats["total_ascent_m"] > constraints["max_ascent_m"]:
                     continue
+                accepted += 1
                 ends_at_shelter = dataset.has_shelter(path[-1])
                 candidates.append({
                     "segments": segment_ids,

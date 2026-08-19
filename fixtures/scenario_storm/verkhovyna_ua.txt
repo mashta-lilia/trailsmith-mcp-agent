@@ -1,0 +1,254 @@
+Current weather for Verkhovyna:
+    Conditions:  scattered clouds 
+    Now:         18.33 metric
+    High:        18.33 metric
+    Low:         18.33 metric
+	Pressure:    1014
+	Humidity:    64
+	FeelsLike:   17.89
+	Wind Speed:  2.8
+	Wind Degree:    243
+	Sunrise:     1787109630 Unixtime
+	Sunset:      1787160533 Unixtime
+Weather Forecast for Verkhovyna:
+Date & Time: 2026-08-19 18:00:00 +0000 UTC
+Conditions:  Clouds scattered clouds
+Temp:        17.61 
+High:        17.61 
+Low:         13.48
+
+Date & Time: 2026-08-19 21:00:00 +0000 UTC
+Conditions:  Clouds scattered clouds
+Temp:        14.12 
+High:        14.12 
+Low:         11.35
+
+Date & Time: 2026-08-20 00:00:00 +0000 UTC
+Conditions:  Clouds scattered clouds
+Temp:        11.53 
+High:        11.53 
+Low:         11.53
+
+Date & Time: 2026-08-20 03:00:00 +0000 UTC
+Conditions:  Clear clear sky
+Temp:        12.28 
+High:        12.28 
+Low:         12.28
+
+Date & Time: 2026-08-20 06:00:00 +0000 UTC
+Conditions:  Clear clear sky
+Temp:        18.36 
+High:        18.36 
+Low:         18.36
+
+Date & Time: 2026-08-20 09:00:00 +0000 UTC
+Conditions:  Clouds scattered clouds
+Temp:        24.68 
+High:        24.68 
+Low:         24.68
+
+Date & Time: 2026-08-20 12:00:00 +0000 UTC
+Conditions:  Clouds broken clouds
+Temp:        27.41 
+High:        27.41 
+Low:         27.41
+
+Date & Time: 2026-08-20 15:00:00 +0000 UTC
+Conditions:  Clouds broken clouds
+Temp:        26.22 
+High:        26.22 
+Low:         26.22
+
+Date & Time: 2026-08-20 18:00:00 +0000 UTC
+Conditions:  Clouds scattered clouds
+Temp:        18.56 
+High:        18.56 
+Low:         18.56
+
+Date & Time: 2026-08-20 21:00:00 +0000 UTC
+Conditions:  Clear clear sky
+Temp:        17.76 
+High:        17.76 
+Low:         17.76
+
+Date & Time: 2026-08-21 00:00:00 +0000 UTC
+Conditions:  Clouds few clouds
+Temp:        17.88 
+High:        17.88 
+Low:         17.88
+
+Date & Time: 2026-08-21 03:00:00 +0000 UTC
+Conditions:  Clear clear sky
+Temp:        17.85 
+High:        17.85 
+Low:         17.85
+
+Date & Time: 2026-08-21 06:00:00 +0000 UTC
+Conditions:  Clouds few clouds
+Temp:        20.72 
+High:        20.72 
+Low:         20.72
+
+Date & Time: 2026-08-21 09:00:00 +0000 UTC
+Conditions:  Clouds overcast clouds
+Temp:        27.34 
+High:        27.34 
+Low:         27.34
+
+Date & Time: 2026-08-21 12:00:00 +0000 UTC
+Conditions:  Clouds broken clouds
+Temp:        28.84 
+High:        28.84 
+Low:         28.84
+
+Date & Time: 2026-08-21 15:00:00 +0000 UTC
+Conditions:  Clouds scattered clouds
+Temp:        27.66 
+High:        27.66 
+Low:         27.66
+
+Date & Time: 2026-08-21 18:00:00 +0000 UTC
+Conditions:  Clouds broken clouds
+Temp:        21.44 
+High:        21.44 
+Low:         21.44
+
+Date & Time: 2026-08-21 21:00:00 +0000 UTC
+Conditions:  Clouds scattered clouds
+Temp:        18.89 
+High:        18.89 
+Low:         18.89
+
+Date & Time: 2026-08-22 00:00:00 +0000 UTC
+Conditions:  Clouds few clouds
+Temp:        17.72 
+High:        17.72 
+Low:         17.72
+
+Date & Time: 2026-08-22 03:00:00 +0000 UTC
+Conditions:  Clear clear sky
+Temp:        18.33 
+High:        18.33 
+Low:         18.33
+
+Date & Time: 2026-08-22 06:00:00 +0000 UTC
+Conditions:  Clouds scattered clouds
+Temp:        24.28 
+High:        24.28 
+Low:         24.28
+
+Date & Time: 2026-08-22 09:00:00 +0000 UTC
+Conditions:  Clouds broken clouds
+Temp:        29.66 
+High:        29.66 
+Low:         29.66
+
+Date & Time: 2026-08-22 12:00:00 +0000 UTC
+Conditions:  Clouds broken clouds
+Temp:        30.56 
+High:        30.56 
+Low:         30.56
+
+Date & Time: 2026-08-22 15:00:00 +0000 UTC
+Conditions:  Rain light rain
+Temp:        24.06 
+High:        24.06 
+Low:         24.06
+
+Date & Time: 2026-08-22 18:00:00 +0000 UTC
+Conditions:  Rain light rain
+Temp:        14.78 
+High:        14.78 
+Low:         14.78
+
+Date & Time: 2026-08-22 21:00:00 +0000 UTC
+Conditions:  Clouds few clouds
+Temp:        13.99 
+High:        13.99 
+Low:         13.99
+
+Date & Time: 2026-08-23 00:00:00 +0000 UTC
+Conditions:  Clear clear sky
+Temp:        12.43 
+High:        12.43 
+Low:         12.43
+
+Date & Time: 2026-08-23 03:00:00 +0000 UTC
+Conditions:  Clouds few clouds
+Temp:        11.39 
+High:        11.39 
+Low:         11.39
+
+Date & Time: 2026-08-23 06:00:00 +0000 UTC
+Conditions:  Clear clear sky
+Temp:        15.02 
+High:        15.02 
+Low:         15.02
+
+Date & Time: 2026-08-23 09:00:00 +0000 UTC
+Conditions:  Clear clear sky
+Temp:        20.35 
+High:        20.35 
+Low:         20.35
+
+Date & Time: 2026-08-23 12:00:00 +0000 UTC
+Conditions:  Clear clear sky
+Temp:        22.9 
+High:        22.9 
+Low:         22.9
+
+Date & Time: 2026-08-23 15:00:00 +0000 UTC
+Conditions:  Clouds overcast clouds
+Temp:        20.43 
+High:        20.43 
+Low:         20.43
+
+Date & Time: 2026-08-23 18:00:00 +0000 UTC
+Conditions:  Clouds broken clouds
+Temp:        17.7 
+High:        17.7 
+Low:         17.7
+
+Date & Time: 2026-08-23 21:00:00 +0000 UTC
+Conditions:  Clouds broken clouds
+Temp:        15.19 
+High:        15.19 
+Low:         15.19
+
+Date & Time: 2026-08-24 00:00:00 +0000 UTC
+Conditions:  Clouds scattered clouds
+Temp:        13.56 
+High:        13.56 
+Low:         13.56
+
+Date & Time: 2026-08-24 03:00:00 +0000 UTC
+Conditions:  Clear clear sky
+Temp:        12.07 
+High:        12.07 
+Low:         12.07
+
+Date & Time: 2026-08-24 06:00:00 +0000 UTC
+Conditions:  Clear clear sky
+Temp:        17.31 
+High:        17.31 
+Low:         17.31
+
+Date & Time: 2026-08-24 09:00:00 +0000 UTC
+Conditions:  Clear clear sky
+Temp:        21.54 
+High:        21.54 
+Low:         21.54
+
+Date & Time: 2026-08-24 12:00:00 +0000 UTC
+Conditions:  Rain light rain
+Temp:        17.7 
+High:        17.7 
+Low:         17.7
+
+Date & Time: 2026-08-24 15:00:00 +0000 UTC
+Conditions:  Rain light rain
+Temp:        16.35 
+High:        16.35 
+Low:         16.35
+
+

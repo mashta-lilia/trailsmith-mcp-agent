@@ -48,7 +48,8 @@ class TestParseWeatherText:
     def test_detects_thunderstorm_and_heavy_rain(self):
         summary = parse_weather_text(SAMPLE, "2026-09-13")
         assert summary.thunderstorm is True
-        assert summary.precip_mm == pytest.approx(20.0)  # thunderstorm dominates
+        # Worst matching keyword wins: "heavy rain" (25) outranks "thunderstorm" (20).
+        assert summary.precip_mm == pytest.approx(25.0)
 
     def test_missing_date_raises(self):
         with pytest.raises(WeatherParseError) as excinfo:

@@ -18,7 +18,10 @@ from .weather_parser import WeatherParseError, parse_weather_text
     "parse_weather_text",
     "Parse the raw text returned by the OpenWeather MCP `weather` tool into the "
     "structured weather summary required by trailsmith assess_segment_risk. "
-    "Pass the full tool output and the target date (YYYY-MM-DD). On failure "
+    "Pass the full tool output and the target date (YYYY-MM-DD). Returns "
+    "{\"status\": \"ok\", \"weather\": {...}, \"excerpt\": \"...\"} where "
+    "`weather` is ready to pass straight to assess_segment_risk and `excerpt` "
+    "is a short bounded quote of the source values for the report. On failure "
     "returns {\"status\": \"error\", \"code\": ...}; then treat the day's "
     "weather as unknown.",
     {"text": str, "target_date": str},
@@ -26,10 +29,16 @@ from .weather_parser import WeatherParseError, parse_weather_text
 async def parse_weather_tool(args: dict) -> dict:
     try:
         summary = parse_weather_text(args["text"], args["target_date"])
-        payload = {"status": "ok", "weather": summary.as_dict()}
+        payload = {
+            "status": "ok",
+            "weather": summary.risk_input(),
+            "excerpt": summary.excerpt,
+        }
     except WeatherParseError as exc:
         payload = {"status": "error", "code": exc.code, "message": str(exc)}
     return {"content": [{"type": "text", "text": json.dumps(payload)}]}
 
 
-helpers_server = create_sdk_mcp_server(name="helpers", tools=[parse_weather_tool])
+# Named "agent_local" so a reader of the run log cannot mistake it for the
+# custom trailsmith server: it is an agent-side helper, not part of Part B.
+helpers_server = create_sdk_mcp_server(name="agent_local", tools=[parse_weather_tool])

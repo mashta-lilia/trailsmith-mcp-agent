@@ -34,10 +34,20 @@ class Segment:
     river_crossings: int
     surface: str
 
+    def _require_endpoint(self, node_id: str) -> None:
+        # Returning a plausible wrong answer here hides caller bugs, so fail loud.
+        if node_id not in (self.from_node, self.to_node):
+            raise ValueError(
+                f"{node_id} is not an endpoint of {self.segment_id} "
+                f"({self.from_node}..{self.to_node})"
+            )
+
     def ascent_from(self, start_node: str) -> int:
+        self._require_endpoint(start_node)
         return self.ascent_m if start_node == self.from_node else self.descent_m
 
     def other_end(self, node_id: str) -> str:
+        self._require_endpoint(node_id)
         return self.to_node if node_id == self.from_node else self.from_node
 
 
@@ -78,12 +88,15 @@ class TrailDataset:
 
     def chain_endpoints(self, segment_ids: list[str]) -> tuple[str, str] | None:
         """Return (start, end) if the segments form a connected chain, else None."""
+        if len(set(segment_ids)) != len(segment_ids):
+            return None  # a repeated segment is not a valid point-to-point chain
         segs = [self.segments[s] for s in segment_ids]
         if len(segs) == 1:
             return segs[0].from_node, segs[0].to_node
         first, second = segs[0], segs[1]
         shared = {first.from_node, first.to_node} & {second.from_node, second.to_node}
-        if not shared:
+        if len(shared) != 1:
+            # 0 = not connected; 2 = parallel edges, so orientation is ambiguous.
             return None
         current = shared.pop()
         start = first.other_end(current)

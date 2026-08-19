@@ -1,12 +1,44 @@
 {
   "itinerary": {
     "days": [
-      {"date": "2026-08-21", "segments": ["CH-005", "CH-004"]},
-      {"date": "2026-08-22", "segments": ["CH-008", "CH-009"]},
-      {"date": "2026-08-23", "segments": ["CH-010", "CH-011"]},
-      {"date": "2026-08-24", "segments": ["CH-012"]},
-      {"date": "2026-08-25", "segments": ["CH-013"]}
+      {
+        "date": "2026-08-20",
+        "segments": [
+          "CH-005",
+          "CH-004"
+        ]
+      },
+      {
+        "date": "2026-08-21",
+        "segments": [
+          "CH-008",
+          "CH-009"
+        ]
+      },
+      {
+        "date": "2026-08-22",
+        "segments": [
+          "CH-010",
+          "CH-011"
+        ]
+      },
+      {
+        "date": "2026-08-23",
+        "segments": [
+          "CH-012"
+        ]
+      },
+      {
+        "date": "2026-08-24",
+        "segments": [
+          "CH-013"
+        ]
+      }
     ]
   },
-  "party": {"fitness": "high", "size": 3, "has_tent": true}
+  "party": {
+    "fitness": "high",
+    "size": 3,
+    "has_tent": true
+  }
 }

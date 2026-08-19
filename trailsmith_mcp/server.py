@@ -6,7 +6,7 @@ from typing import Annotated, Any, Literal
 
 from mcp.server import MCPServer
 from mcp.server.mcpserver.exceptions import ToolError
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 from .dataset import get_dataset
 from . import rules
@@ -27,10 +27,18 @@ def tool_error(code: str, message: str, detail: dict[str, Any] | None = None) ->
 
 
 class DayPlan(BaseModel):
-    date: str = Field(description="ISO date (YYYY-MM-DD)", pattern=r"^\d{4}-\d{2}-\d{2}$")
+    date: str = Field(description="ISO date (YYYY-MM-DD)", pattern=r"^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$")
     segments: list[Annotated[str, Field(pattern=r"^CH-\d{3}$")]] = Field(
-        min_length=1, description="Ordered trail segment IDs for the day"
+        min_length=1, max_length=20,
+        description="Ordered trail segment IDs for the day; must be distinct",
     )
+
+    @field_validator("segments")
+    @classmethod
+    def _distinct(cls, v: list[str]) -> list[str]:
+        if len(set(v)) != len(v):
+            raise ValueError("segments must not repeat within a day")
+        return v
 
 
 class Itinerary(BaseModel):
@@ -50,18 +58,51 @@ class Violation(BaseModel):
     message: str
 
 
+class AppliedCaps(BaseModel):
+    fitness: Literal["low", "moderate", "high"]
+    max_km: float
+    max_ascent_m: int
+
+
 class ValidationResult(BaseModel):
     status: Literal["ok", "invalid"]
     normalized_itinerary: dict[str, Any]
     violations: list[Violation]
+    applied_caps: AppliedCaps
+
+
+class NormalizedDay(BaseModel):
+    """One day as returned by validate_itinerary. Extra keys are preserved."""
+
+    model_config = {"extra": "allow"}
+
+    date: str = Field(pattern=r"^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$")
+    segments: list[Annotated[str, Field(pattern=r"^CH-\d{3}$")]] = Field(
+        min_length=1, max_length=20
+    )
+    total_km: float = Field(ge=0, le=200)
+    total_ascent_m: int = Field(ge=0, le=20000)
+    ends_at_shelter: bool
+
+
+class NormalizedItinerary(BaseModel):
+    days: list[NormalizedDay] = Field(min_length=1, max_length=7)
 
 
 class WeatherSummary(BaseModel):
+    model_config = {"extra": "forbid"}
+
     temp_min_c: float = Field(ge=-40, le=45)
     temp_max_c: float = Field(ge=-40, le=45)
     precip_mm: float = Field(ge=0, le=500)
     wind_ms: float = Field(ge=0, le=60)
     thunderstorm: bool
+
+    @model_validator(mode="after")
+    def _ordered(self) -> "WeatherSummary":
+        if self.temp_min_c > self.temp_max_c:
+            raise ValueError("temp_min_c must not exceed temp_max_c")
+        return self
 
 
 class RiskFactor(BaseModel):
@@ -168,6 +209,15 @@ def assess_segment_risk(
             "weather is required when weather_known is true; pass "
             "weather_known=false when no reliable forecast is available.",
         )
+    if not weather_known and weather is not None:
+        # Otherwise the flag would discard a supplied severe forecast and return
+        # a LOWER score for genuinely dangerous conditions.
+        raise tool_error(
+            "CONTRADICTORY_WEATHER",
+            "weather_known=false must be used with no weather object; omit "
+            "weather, or set weather_known=true to score the forecast supplied.",
+            {"weather_supplied": True},
+        )
     result = rules.assess_risk(
         get_dataset(), segments, weather.model_dump() if weather else {}, weather_known
     )
@@ -214,21 +264,25 @@ def suggest_alternative_segments(
         "validate_itinerary."
     ),
 )
-def estimate_logistics(normalized_itinerary: dict[str, Any], party: Party) -> LogisticsResult:
-    import re
-
-    days = normalized_itinerary.get("days")
-    if not days or not all(
-        isinstance(d, dict) and {"date", "segments", "total_km", "total_ascent_m",
-                                 "ends_at_shelter"} <= d.keys()
-        and isinstance(d["date"], str) and re.fullmatch(r"\d{4}-\d{2}-\d{2}", d["date"])
-        for d in days
-    ):
-        raise tool_error(
-            "NOT_NORMALIZED",
-            "Pass the normalized_itinerary object returned by validate_itinerary.",
-        )
+def estimate_logistics(
+    normalized_itinerary: NormalizedItinerary, party: Party
+) -> LogisticsResult:
+    days = [d.model_dump() for d in normalized_itinerary.days]
+    dataset = get_dataset()
     for day in days:
         _check_segments_exist(day["segments"])
+        # Recompute rather than trust the caller: a supplied total_km of 0.1 for
+        # a real 6.6 km chain would otherwise yield a nonsense day sheet.
+        endpoints = dataset.chain_endpoints(day["segments"])
+        if endpoints is None:
+            raise tool_error(
+                "DISCONNECTED_DAY",
+                f"Day dated {day['date']} does not form a connected chain; "
+                "re-run validate_itinerary and fix the violations first.",
+                {"segments": day["segments"]},
+            )
+        stats = rules.walk_chain(dataset, day["segments"], endpoints[0])
+        day["total_km"] = stats["total_km"]
+        day["total_ascent_m"] = stats["total_ascent_m"]
     result = rules.estimate_logistics(get_dataset(), days, party.model_dump())
     return LogisticsResult(**result)

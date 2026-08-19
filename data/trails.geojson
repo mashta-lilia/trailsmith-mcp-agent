@@ -14,7 +14,7 @@
         "node_id": "ZAROSLYAK",
         "name": "Zaroslyak base",
         "altitude_m": 1220,
-        "nearest_settlement": "Vorokhta"
+        "nearest_settlement": "Vorokhta,UA"
       }
     },
     {
@@ -30,7 +30,7 @@
         "node_id": "HOVERLA",
         "name": "Hoverla summit",
         "altitude_m": 2061,
-        "nearest_settlement": "Yasinia"
+        "nearest_settlement": "Yasinia,UA"
       }
     },
     {
@@ -46,7 +46,7 @@
         "node_id": "KOZMESHCHYK",
         "name": "Kozmeshchyk clearing",
         "altitude_m": 1240,
-        "nearest_settlement": "Yasinia"
+        "nearest_settlement": "Yasinia,UA"
       }
     },
     {
@@ -62,7 +62,7 @@
         "node_id": "LAZESHCHYNA",
         "name": "Lazeshchyna village",
         "altitude_m": 682,
-        "nearest_settlement": "Yasinia"
+        "nearest_settlement": "Yasinia,UA"
       }
     },
     {
@@ -78,7 +78,7 @@
         "node_id": "PETROS",
         "name": "Petros summit",
         "altitude_m": 2020,
-        "nearest_settlement": "Rakhiv"
+        "nearest_settlement": "Rakhiv,UA"
       }
     },
     {
@@ -94,7 +94,7 @@
         "node_id": "KVASY",
         "name": "Kvasy village",
         "altitude_m": 600,
-        "nearest_settlement": "Rakhiv"
+        "nearest_settlement": "Rakhiv,UA"
       }
     },
     {
@@ -110,7 +110,7 @@
         "node_id": "BRESKUL_SADDLE",
         "name": "Breskul saddle",
         "altitude_m": 1850,
-        "nearest_settlement": "Vorokhta"
+        "nearest_settlement": "Vorokhta,UA"
       }
     },
     {
@@ -126,7 +126,7 @@
         "node_id": "POZHYZHEVSKA",
         "name": "Pozhyzhevska meteo station",
         "altitude_m": 1822,
-        "nearest_settlement": "Vorokhta"
+        "nearest_settlement": "Vorokhta,UA"
       }
     },
     {
@@ -142,7 +142,7 @@
         "node_id": "NESAMOVYTE",
         "name": "Lake Nesamovyte",
         "altitude_m": 1750,
-        "nearest_settlement": "Vorokhta"
+        "nearest_settlement": "Vorokhta,UA"
       }
     },
     {
@@ -158,7 +158,7 @@
         "node_id": "TURKUL",
         "name": "Turkul summit",
         "altitude_m": 2036,
-        "nearest_settlement": "Vorokhta"
+        "nearest_settlement": "Vorokhta,UA"
       }
     },
     {
@@ -174,7 +174,7 @@
         "node_id": "SHPYTSI",
         "name": "Shpytsi rocks",
         "altitude_m": 1863,
-        "nearest_settlement": "Verkhovyna"
+        "nearest_settlement": "Verkhovyna,UA"
       }
     },
     {
@@ -190,7 +190,7 @@
         "node_id": "SMOTRYCH",
         "name": "Smotrych summit",
         "altitude_m": 1894,
-        "nearest_settlement": "Verkhovyna"
+        "nearest_settlement": "Verkhovyna,UA"
       }
     },
     {
@@ -206,7 +206,7 @@
         "node_id": "POP_IVAN",
         "name": "Pip Ivan summit (observatory)",
         "altitude_m": 2028,
-        "nearest_settlement": "Verkhovyna"
+        "nearest_settlement": "Verkhovyna,UA"
       }
     },
     {
@@ -222,7 +222,7 @@
         "node_id": "MARICHEIKA",
         "name": "Lake Maricheika",
         "altitude_m": 1510,
-        "nearest_settlement": "Verkhovyna"
+        "nearest_settlement": "Verkhovyna,UA"
       }
     },
     {
@@ -238,7 +238,7 @@
         "node_id": "SHYBENE",
         "name": "Shybene hamlet",
         "altitude_m": 780,
-        "nearest_settlement": "Verkhovyna"
+        "nearest_settlement": "Verkhovyna,UA"
       }
     },
     {
@@ -254,7 +254,7 @@
         "node_id": "FOREST_PRUT",
         "name": "Prut valley trail junction",
         "altitude_m": 1400,
-        "nearest_settlement": "Vorokhta"
+        "nearest_settlement": "Vorokhta,UA"
       }
     },
     {
@@ -270,7 +270,7 @@
         "node_id": "BYSTRETS",
         "name": "Bystrets village",
         "altitude_m": 900,
-        "nearest_settlement": "Verkhovyna"
+        "nearest_settlement": "Verkhovyna,UA"
       }
     },
     {
@@ -286,7 +286,7 @@
         "node_id": "DZEMBRONIA",
         "name": "Dzembronia village",
         "altitude_m": 850,
-        "nearest_settlement": "Verkhovyna"
+        "nearest_settlement": "Verkhovyna,UA"
       }
     },
     {

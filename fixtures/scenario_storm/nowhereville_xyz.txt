@@ -1,0 +1,14 @@
+Current weather for :
+    Conditions: 
+    Now:         0 metric
+    High:        0 metric
+    Low:         0 metric
+	Pressure:    0
+	Humidity:    0
+	FeelsLike:   0
+	Wind Speed:  0
+	Wind Degree:    0
+	Sunrise:     0 Unixtime
+	Sunset:      0 Unixtime
+Weather Forecast for :
+

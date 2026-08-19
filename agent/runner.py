@@ -26,6 +26,8 @@ from claude_agent_sdk import (  # noqa: E402
     query,
 )
 
+from claude_agent_sdk import ClaudeSDKError  # noqa: E402
+
 from .orchestrator import build_options  # noqa: E402
 
 START = time.monotonic()
@@ -50,7 +52,19 @@ def build_prompt(request: dict) -> str:
 async def run(request: dict, replay: bool) -> None:
     options = build_options(replay=replay)
     log(f"Starting agent (replay={'on' if replay else 'off'})")
-    async for message in query(prompt=build_prompt(request), options=options):
+    try:
+        await _drive(build_prompt(request), options)
+    except ClaudeSDKError as exc:
+        # One readable line instead of a chained 40-line traceback.
+        first = str(exc).strip().splitlines()[0] if str(exc).strip() else exc.__class__.__name__
+        log(f"AGENT FAILED: {first}")
+        if "authenticate" in first.lower() or "oauth" in first.lower():
+            log("Hint: run `claude /login`, or set ANTHROPIC_API_KEY in .env")
+        raise SystemExit(1)
+
+
+async def _drive(prompt: str, options) -> None:
+    async for message in query(prompt=prompt, options=options):
         if isinstance(message, AssistantMessage):
             for block in message.content:
                 if isinstance(block, ToolUseBlock):
@@ -59,7 +73,15 @@ async def run(request: dict, replay: bool) -> None:
                 elif isinstance(block, TextBlock) and block.text.strip():
                     log(f"AGENT: {block.text.strip()}")
         elif isinstance(message, ResultMessage):
-            log("--- FINAL RESULT ---")
+            cost = message.total_cost_usd
+            cost_text = f"${cost:.4f}" if cost is not None else "n/a"
+            log(
+                f"--- FINAL RESULT (subtype={message.subtype}, "
+                f"turns={message.num_turns}, cost={cost_text}) ---"
+            )
+            if message.subtype != "success":
+                log(f"RUN STOPPED EARLY: {message.subtype} - budget or turn "
+                    "cap reached, this is not a completed model answer.")
             print(message.result)
 
 

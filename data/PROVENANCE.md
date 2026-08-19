@@ -17,9 +17,22 @@ from curated tables embedded in that script.
 - Shelter and camp locations come from OSM `tourism=wilderness_hut` /
   `amenity=shelter` nodes plus well-known established camp sites
   (Nesamovyte, Maricheika, Kozmeshchyk).
-- `nearest_settlement` per node is the closest OSM `place` node with an
-  OpenWeatherMap-resolvable name; it is what the agent passes to the
-  OpenWeather MCP `weather` tool.
+- `nearest_settlement` is **not** simply the closest `place` node: it is the
+  nearest of four pre-chosen district towns that OpenWeatherMap resolves
+  reliably — `Vorokhta,UA`, `Yasinia,UA`, `Rakhiv,UA`, `Verkhovyna,UA`. Smaller
+  villages that are themselves resolvable (Lazeshchyna, Kvasy) are mapped to
+  their district town so that one fixture covers a whole cluster. The value
+  includes the `,UA` country suffix because it is passed verbatim as the
+  `city` argument to the OpenWeather MCP `weather` tool and used as the replay
+  fixture key — one canonical string shared by the dataset, the fixture
+  recorder, and the replay server.
+
+**Generated schema.** 18 nodes, 24 segments, 9 shelters.
+`trails.geojson` node properties: `node_id, name, altitude_m, nearest_settlement`.
+Segment properties: `segment_id, from_node, to_node, length_km, ascent_m,
+descent_m, max_altitude_m, exposure, river_crossings, surface` (`surface` is
+carried for realism but no rule reads it).
+`shelters.csv` columns: `node_id, shelter_name, type, capacity`.
 
 **Reproduction:** `python scripts/build_dataset.py` regenerates both files
 deterministically. The dataset is opened read-only at server startup; no tool

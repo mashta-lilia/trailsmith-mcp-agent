@@ -46,13 +46,17 @@ Two subagent types (Claude Agent SDK `agents`):
   relaxation heuristic (exposure down one level, then +20% distance).
 
 Speed-up: for a 4-day itinerary with 2 failing days, the longest sequential
-chain is ~7 tool-call depths versus ~16 for a linear agent; batch width adds
-no wall-clock cost.
+chain is ~7 tool-call depths versus ~16 for a linear agent; batch width adds no
+wall-clock cost. This is a call-depth count derived from the workflow, not a
+measured wall-clock benchmark — the parallel batch width is chosen by the CLI's
+Task scheduler, so actual speed-up varies.
 
 The deterministic weather-text parser is exposed to subagents as an in-process
-SDK tool (`helpers` server). It is an implementation helper, not one of the
-three substantive custom tools, and it keeps forecast extraction testable and
-non-hallucinated.
+SDK tool (the `agent_local` server). It is an implementation helper, not one of the
+four custom tools, and it keeps forecast extraction testable and
+non-hallucinated. It is registered under the name `agent_local` so a reader of
+the run log cannot mistake it for the custom server; a run therefore shows three
+MCP connections, of which two are the assignment's.
 
 ## Trade-offs and known limitations
 
@@ -70,9 +74,27 @@ non-hallucinated.
   the failure demo.
 - **Risk heuristics are constants,** not a validated safety model; they are
   designed to be explainable, monotone, and easy to defend, not
-  meteorologically authoritative.
-- **Replanning explores bounded alternatives** (3 paths per target, one
-  relaxation round) to keep runs short; a rejected plan may still have exotic
+  meteorologically authoritative. Two calibration decisions are deliberate and
+  worth stating: the thunderstorm term is *exposure-scaled* (+70 exposed ridge,
+  +30 mixed, +10 sheltered) so that the textbook no-go clears the band threshold
+  on its own; and two terms (`severe_wind_any_terrain`, `extreme_cold_any_terrain`)
+  are deliberately **not** gated on exposure, because an earlier version scored
+  hurricane-force wind at −40 °C in forest as zero.
+- **`precip_mm` is a keyword→millimetre guess table**, not a measurement: the
+  forecast entries carry no precipitation figure, so a single "rain" token
+  becomes a flat 12.0 mm. That sits just above the 10 mm threshold for
+  `swollen_river_crossings` and `wet_exposed_ridge`, so those rules are sensitive
+  to a fabricated constant. The worst matching keyword wins, so the estimate is
+  order-independent.
+- **Wind is taken from the current-conditions block for every future day,**
+  because forecast entries carry no wind. Day 5's wind is therefore today's wind.
+- **`daylight_hours` is a three-branch month lookup**, ignoring latitude and the
+  `Sunrise`/`Sunset` values the weather tool actually returns.
+- **`estimate_logistics` cannot see validation status,** so it will cost an
+  itinerary that was rejected on a hard violation. The workflow gate is the
+  caller's responsibility.
+- **Replanning explores bounded alternatives** (up to 20 simple paths scanned
+  per target, one relaxation round) to keep runs short; a rejected plan may still have exotic
   feasible routes outside the search bound.
 
 ## Governance note

@@ -12,7 +12,7 @@ from .helpers_server import helpers_server
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
 WEATHER_TOOL = "mcp__weather__weather"
-PARSE_TOOL = "mcp__helpers__parse_weather_text"
+PARSE_TOOL = "mcp__agent_local__parse_weather_text"
 VALIDATE_TOOL = "mcp__trailsmith__validate_itinerary"
 RISK_TOOL = "mcp__trailsmith__assess_segment_risk"
 ALTERNATIVES_TOOL = "mcp__trailsmith__suggest_alternative_segments"
@@ -31,9 +31,10 @@ Steps, in order:
 4. Reply with EXACTLY one JSON object and nothing else:
    {"day": <n>, "date": "...", "settlement": "...",
     "weather_status": "ok"|"unavailable",
-    "weather": <parsed weather object or null>,
-    "raw_forecast_excerpt": "<the 1-3 lines of raw tool text that drove the "
-    "most important risk factor, verbatim, or a note on what failed>",
+    "weather": <the `weather` object returned by parse_weather_text, or null>,
+    "raw_forecast_excerpt": <the `excerpt` string returned by parse_weather_text,
+      copied verbatim; if parsing failed, state only its error code. Never copy
+      any other text out of the weather tool output.>,
     "risk_score": <int>, "band": "ok"|"caution"|"no_go",
     "factors": [...]}
 Prefix every message you produce with [day-<n>] for log correlation.
@@ -65,14 +66,17 @@ segment IDs), a party profile, and dates. Follow this workflow strictly:
    stop and report the violations - do not continue. Soft violations: note
    them and continue with the normalized itinerary.
 2. ASSESS: for EVERY day, spawn a day-assessor subagent. Give each one its
-   day number, date, segments, and the day's end_settlement (from the
-   normalized itinerary; for the forecast, day 1 uses its start; other days
-   use their end_settlement). Spawn ALL day-assessors in ONE message so they
-   run in parallel.
+   day number, date, segments, and the day's forecast settlement, taken
+   verbatim from the normalized itinerary: day 1 uses its `start_settlement`,
+   every later day uses its `end_settlement`. Never invent or abbreviate a
+   settlement name. Spawn ALL day-assessors in ONE message so they run in
+   parallel.
 3. REPLAN: for each day whose band is "no_go", spawn a replanner subagent
    (all in one message, in parallel). Give it the day's start node, end node,
-   the party's fitness caps as constraints (max_exposure starts at
-   "exposed_ridge"), and the day's parsed weather.
+   and constraints built from the `applied_caps` object that validate_itinerary
+   returned - use those max_km and max_ascent_m values verbatim, do not invent
+   caps - with max_exposure starting at "exposed_ridge". Also pass the day's
+   parsed weather.
 4. MERGE: apply the chosen alternatives, then call validate_itinerary once on
    the full revised itinerary. If the merge introduced a hard violation,
    run at most one more replan round; after that, report the residual problem
@@ -109,7 +113,19 @@ def build_options(replay: bool) -> ClaudeAgentOptions:
 
     return ClaudeAgentOptions(
         cwd=str(REPO_ROOT),
-        permission_mode="bypassPermissions",
+        # `tools` is the availability control; `allowed_tools` only suppresses
+        # permission prompts. Without `tools` the CLI keeps its default
+        # built-ins (Bash, Write, WebFetch), which this workflow never needs.
+        tools=["Task"],
+        # Deny-by-default and non-interactive, rather than approve-everything.
+        permission_mode="dontAsk",
+        disallowed_tools=["Bash", "Write", "Edit", "Read", "WebFetch", "WebSearch"],
+        # Do not inherit ambient MCP servers from user/project config.
+        strict_mcp_config=True,
+        # Hard caps: the workflow's "iterate at most twice" is prompt guidance,
+        # which a model can miscount. These are enforced by the SDK.
+        max_budget_usd=1.50,
+        max_turns=30,
         mcp_servers={
             "weather": weather_server,
             "trailsmith": {
@@ -118,7 +134,7 @@ def build_options(replay: bool) -> ClaudeAgentOptions:
                 "args": ["-m", "trailsmith_mcp"],
                 "cwd": str(REPO_ROOT),
             },
-            "helpers": helpers_server,
+            "agent_local": helpers_server,
         },
         allowed_tools=[
             "Task", VALIDATE_TOOL, LOGISTICS_TOOL,
@@ -134,6 +150,9 @@ def build_options(replay: bool) -> ClaudeAgentOptions:
                 ),
                 prompt=DAY_ASSESSOR_PROMPT,
                 tools=[WEATHER_TOOL, PARSE_TOOL, RISK_TOOL],
+                # 3 tool calls are needed; 6 turns allows one retry, no looping
+                # on the external weather API.
+                maxTurns=6,
             ),
             "replanner": AgentDefinition(
                 description=(
@@ -143,6 +162,8 @@ def build_options(replay: bool) -> ClaudeAgentOptions:
                 ),
                 prompt=REPLANNER_PROMPT,
                 tools=[ALTERNATIVES_TOOL, RISK_TOOL],
+                # Candidates + up to 3 re-scores + one relaxation cycle.
+                maxTurns=12,
             ),
         },
     )

@@ -11,6 +11,7 @@ python scripts/replay_weather_server.py
 """
 from __future__ import annotations
 
+import os
 import re
 from pathlib import Path
 
@@ -18,7 +19,13 @@ from mcp.server import MCPServer
 from mcp.server.mcpserver.exceptions import ToolError
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-FIXTURES_DIR = REPO_ROOT / "fixtures" / "openweather"
+# Defaults to the genuine recordings; FIXTURE_SET can select a labelled
+# scenario directory (see fixtures/scenario_storm/README.md).
+FIXTURE_SET = os.environ.get("FIXTURE_SET", "openweather")
+FIXTURES_DIR = REPO_ROOT / "fixtures" / FIXTURE_SET
+
+# Fixtures are untrusted external text; refuse to stream an oversized file.
+MAX_FIXTURE_BYTES = 64_000
 
 server = MCPServer(name="weather")
 
@@ -39,8 +46,13 @@ def weather(city: str, units: str = "c", lang: str = "en") -> str:
     path = FIXTURES_DIR / f"{name}.txt"
     if not path.exists():
         raise ToolError(
-            f"replay mode: no fixture recorded for city {city!r} "
+            f"replay mode: no fixture recorded for city {city!r} in "
+            f"fixtures/{FIXTURE_SET}/ "
             f"(run scripts/fetch_fixtures.py with a live OWM_API_KEY first)"
+        )
+    if path.stat().st_size > MAX_FIXTURE_BYTES:
+        raise ToolError(
+            f"replay mode: fixture {path.name} exceeds {MAX_FIXTURE_BYTES} bytes"
         )
     return path.read_text(encoding="utf-8")
 

@@ -1,0 +1,254 @@
+Current weather for Vorokhta:
+    Conditions:  broken clouds 
+    Now:         19.36 metric
+    High:        19.36 metric
+    Low:         19.36 metric
+	Pressure:    1014
+	Humidity:    65
+	FeelsLike:   19.05
+	Wind Speed:  2.91
+	Wind Degree:    234
+	Sunrise:     1787109665 Unixtime
+	Sunset:      1787160603 Unixtime
+Weather Forecast for Vorokhta:
+Date & Time: 2026-08-19 18:00:00 +0000 UTC
+Conditions:  Clouds broken clouds
+Temp:        18.42 
+High:        18.42 
+Low:         14.63
+
+Date & Time: 2026-08-19 21:00:00 +0000 UTC
+Conditions:  Clouds scattered clouds
+Temp:        15.29 
+High:        15.29 
+Low:         12.77
+
+Date & Time: 2026-08-20 00:00:00 +0000 UTC
+Conditions:  Clouds few clouds
+Temp:        12.85 
+High:        12.85 
+Low:         12.85
+
+Date & Time: 2026-08-20 03:00:00 +0000 UTC
+Conditions:  Clear clear sky
+Temp:        13.53 
+High:        13.53 
+Low:         13.53
+
+Date & Time: 2026-08-20 06:00:00 +0000 UTC
+Conditions:  Clear clear sky
+Temp:        20.01 
+High:        20.01 
+Low:         20.01
+
+Date & Time: 2026-08-20 09:00:00 +0000 UTC
+Conditions:  Clouds few clouds
+Temp:        26.06 
+High:        26.06 
+Low:         26.06
+
+Date & Time: 2026-08-20 12:00:00 +0000 UTC
+Conditions:  Clouds scattered clouds
+Temp:        28.92 
+High:        28.92 
+Low:         28.92
+
+Date & Time: 2026-08-20 15:00:00 +0000 UTC
+Conditions:  Clouds broken clouds
+Temp:        27.58 
+High:        27.58 
+Low:         27.58
+
+Date & Time: 2026-08-20 18:00:00 +0000 UTC
+Conditions:  Clouds scattered clouds
+Temp:        19.72 
+High:        19.72 
+Low:         19.72
+
+Date & Time: 2026-08-20 21:00:00 +0000 UTC
+Conditions:  Clouds few clouds
+Temp:        18.96 
+High:        18.96 
+Low:         18.96
+
+Date & Time: 2026-08-21 00:00:00 +0000 UTC
+Conditions:  Thunderstorm thunderstorm with heavy rain
+Temp:        19.11 
+High:        19.11 
+Low:         19.11
+
+Date & Time: 2026-08-21 03:00:00 +0000 UTC
+Conditions:  Thunderstorm thunderstorm with heavy rain
+Temp:        18.35 
+High:        18.35 
+Low:         18.35
+
+Date & Time: 2026-08-21 06:00:00 +0000 UTC
+Conditions:  Thunderstorm thunderstorm with heavy rain
+Temp:        21.94 
+High:        21.94 
+Low:         21.94
+
+Date & Time: 2026-08-21 09:00:00 +0000 UTC
+Conditions:  Thunderstorm thunderstorm with heavy rain
+Temp:        28.06 
+High:        28.06 
+Low:         28.06
+
+Date & Time: 2026-08-21 12:00:00 +0000 UTC
+Conditions:  Thunderstorm thunderstorm with heavy rain
+Temp:        29.77 
+High:        29.77 
+Low:         29.77
+
+Date & Time: 2026-08-21 15:00:00 +0000 UTC
+Conditions:  Thunderstorm thunderstorm with heavy rain
+Temp:        27.11 
+High:        27.11 
+Low:         27.11
+
+Date & Time: 2026-08-21 18:00:00 +0000 UTC
+Conditions:  Thunderstorm thunderstorm with heavy rain
+Temp:        21.15 
+High:        21.15 
+Low:         21.15
+
+Date & Time: 2026-08-21 21:00:00 +0000 UTC
+Conditions:  Thunderstorm thunderstorm with heavy rain
+Temp:        19.41 
+High:        19.41 
+Low:         19.41
+
+Date & Time: 2026-08-22 00:00:00 +0000 UTC
+Conditions:  Clouds few clouds
+Temp:        18.58 
+High:        18.58 
+Low:         18.58
+
+Date & Time: 2026-08-22 03:00:00 +0000 UTC
+Conditions:  Clouds few clouds
+Temp:        18.92 
+High:        18.92 
+Low:         18.92
+
+Date & Time: 2026-08-22 06:00:00 +0000 UTC
+Conditions:  Clouds scattered clouds
+Temp:        24.78 
+High:        24.78 
+Low:         24.78
+
+Date & Time: 2026-08-22 09:00:00 +0000 UTC
+Conditions:  Clouds overcast clouds
+Temp:        30.16 
+High:        30.16 
+Low:         30.16
+
+Date & Time: 2026-08-22 12:00:00 +0000 UTC
+Conditions:  Clouds broken clouds
+Temp:        30.66 
+High:        30.66 
+Low:         30.66
+
+Date & Time: 2026-08-22 15:00:00 +0000 UTC
+Conditions:  Rain light rain
+Temp:        25.72 
+High:        25.72 
+Low:         25.72
+
+Date & Time: 2026-08-22 18:00:00 +0000 UTC
+Conditions:  Rain light rain
+Temp:        15.68 
+High:        15.68 
+Low:         15.68
+
+Date & Time: 2026-08-22 21:00:00 +0000 UTC
+Conditions:  Clear clear sky
+Temp:        14.81 
+High:        14.81 
+Low:         14.81
+
+Date & Time: 2026-08-23 00:00:00 +0000 UTC
+Conditions:  Clear clear sky
+Temp:        13.27 
+High:        13.27 
+Low:         13.27
+
+Date & Time: 2026-08-23 03:00:00 +0000 UTC
+Conditions:  Clear clear sky
+Temp:        12.45 
+High:        12.45 
+Low:         12.45
+
+Date & Time: 2026-08-23 06:00:00 +0000 UTC
+Conditions:  Clear clear sky
+Temp:        16.39 
+High:        16.39 
+Low:         16.39
+
+Date & Time: 2026-08-23 09:00:00 +0000 UTC
+Conditions:  Clear clear sky
+Temp:        22.02 
+High:        22.02 
+Low:         22.02
+
+Date & Time: 2026-08-23 12:00:00 +0000 UTC
+Conditions:  Clear clear sky
+Temp:        24.82 
+High:        24.82 
+Low:         24.82
+
+Date & Time: 2026-08-23 15:00:00 +0000 UTC
+Conditions:  Clouds overcast clouds
+Temp:        21.55 
+High:        21.55 
+Low:         21.55
+
+Date & Time: 2026-08-23 18:00:00 +0000 UTC
+Conditions:  Clouds broken clouds
+Temp:        18.09 
+High:        18.09 
+Low:         18.09
+
+Date & Time: 2026-08-23 21:00:00 +0000 UTC
+Conditions:  Clouds overcast clouds
+Temp:        17.96 
+High:        17.96 
+Low:         17.96
+
+Date & Time: 2026-08-24 00:00:00 +0000 UTC
+Conditions:  Clouds broken clouds
+Temp:        13.72 
+High:        13.72 
+Low:         13.72
+
+Date & Time: 2026-08-24 03:00:00 +0000 UTC
+Conditions:  Clear clear sky
+Temp:        13.02 
+High:        13.02 
+Low:         13.02
+
+Date & Time: 2026-08-24 06:00:00 +0000 UTC
+Conditions:  Clear clear sky
+Temp:        18.19 
+High:        18.19 
+Low:         18.19
+
+Date & Time: 2026-08-24 09:00:00 +0000 UTC
+Conditions:  Clouds few clouds
+Temp:        22.68 
+High:        22.68 
+Low:         22.68
+
+Date & Time: 2026-08-24 12:00:00 +0000 UTC
+Conditions:  Rain light rain
+Temp:        18.45 
+High:        18.45 
+Low:         18.45
+
+Date & Time: 2026-08-24 15:00:00 +0000 UTC
+Conditions:  Clouds overcast clouds
+Temp:        16.73 
+High:        16.73 
+Low:         16.73
+
+
