@@ -1,5 +1,8 @@
 # TrailSmith — weather-aware Carpathian itinerary agent (MCP assignment)
 
+**Repository:** https://github.com/mashta-lilia/trailsmith-mcp-agent
+(full commit history; this archive is an export of tracked files at one commit)
+
 A domain-specific data agent that validates, risk-assesses, and replans
 multi-day hiking itineraries in the Chornohora range. It uses two MCP
 connections:
