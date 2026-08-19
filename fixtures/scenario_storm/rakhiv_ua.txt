@@ -1,32 +1,32 @@
 Current weather for Rakhiv:
-    Conditions:  overcast clouds 
-    Now:         18.11 metric
-    High:        18.11 metric
-    Low:         18.11 metric
+    Conditions:  broken clouds 
+    Now:         17.42 metric
+    High:        17.42 metric
+    Low:         17.42 metric
 	Pressure:    1014
-	Humidity:    75
-	FeelsLike:   17.93
-	Wind Speed:  1.37
-	Wind Degree:    195
+	Humidity:    70
+	FeelsLike:   17.05
+	Wind Speed:  1.46
+	Wind Degree:    134
 	Sunrise:     1787109785 Unixtime
 	Sunset:      1787160660 Unixtime
 Weather Forecast for Rakhiv:
 Date & Time: 2026-08-19 18:00:00 +0000 UTC
 Conditions:  Rain light rain
-Temp:        17.74 
-High:        17.74 
-Low:         14.75
+Temp:        16.01 
+High:        16.01 
+Low:         16.01
 
 Date & Time: 2026-08-19 21:00:00 +0000 UTC
-Conditions:  Clouds scattered clouds
-Temp:        14.46 
-High:        14.46 
-Low:         12.07
+Conditions:  Clouds broken clouds
+Temp:        14.89 
+High:        14.89 
+Low:         12.66
 
 Date & Time: 2026-08-20 00:00:00 +0000 UTC
-Conditions:  Clouds few clouds
-Temp:        12.1 
-High:        12.1 
+Conditions:  Clouds scattered clouds
+Temp:        13.4 
+High:        13.4 
 Low:         12.1
 
 Date & Time: 2026-08-20 03:00:00 +0000 UTC

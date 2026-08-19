@@ -1,10 +1,32 @@
 {
   "itinerary": {
     "days": [
-      {"date": "2026-08-20", "segments": ["CH-005", "CH-004"]},
-      {"date": "2026-08-21", "segments": ["CH-008", "CH-009", "CH-014"]},
-      {"date": "2026-08-22", "segments": ["CH-015"]}
+      {
+        "date": "2026-08-20",
+        "segments": [
+          "CH-005",
+          "CH-004"
+        ]
+      },
+      {
+        "date": "2026-08-21",
+        "segments": [
+          "CH-008",
+          "CH-009",
+          "CH-014"
+        ]
+      },
+      {
+        "date": "2026-08-22",
+        "segments": [
+          "CH-015"
+        ]
+      }
     ]
   },
-  "party": {"fitness": "moderate", "size": 4, "has_tent": true}
+  "party": {
+    "fitness": "moderate",
+    "size": 4,
+    "has_tent": true
+  }
 }

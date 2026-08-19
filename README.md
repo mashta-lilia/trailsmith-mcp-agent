@@ -90,6 +90,10 @@ demonstrates process separation and independent startability.
 | `demo/itinerary_5day.json` | Changed valid input: 5 days, high fitness |
 | `demo/itinerary_lowfitness.json` | Changed valid input: low fitness → one soft `DAILY_ASCENT_EXCEEDED` violation on day 1 |
 
+**Before a live demo, run ** — it
+shifts the dates into the forecast window, re-records the genuine fixtures, and
+rebuilds the storm scenario against the new dates in one step.
+
 **The demo dates must fall inside the live 5-day forecast window.** They are set
 for 2026-08-20 onward; before a live demo, bump every `date` and re-run
 `scripts/fetch_fixtures.py`. Outside the window the parser correctly raises
@@ -183,6 +187,7 @@ Start at the **[documentation index](docs/README.md)**.
 
 | Script | Purpose |
 |---|---|
+| `scripts/refresh_demo.py` | Prepare the demo for today: shift demo dates into the forecast window, re-record genuine fixtures, rebuild the date-pinned storm scenario, print the demo commands |
 | `scripts/verify.py` | One-command proof of the whole system: both MCP connections, process separation, error contracts, failure degradation, dataset reproducibility, tests |
 | `scripts/walkthrough.py` | Run the whole domain workflow deterministically, no LLM or credentials |
 | `scripts/smoke_custom_server.py` | Start the custom server in a separate process, list and call its tools |

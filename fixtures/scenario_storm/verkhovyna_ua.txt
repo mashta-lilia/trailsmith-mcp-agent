@@ -1,32 +1,32 @@
 Current weather for Verkhovyna:
     Conditions:  scattered clouds 
-    Now:         18.33 metric
-    High:        18.33 metric
-    Low:         18.33 metric
+    Now:         17.16 metric
+    High:        17.16 metric
+    Low:         17.16 metric
 	Pressure:    1014
-	Humidity:    64
-	FeelsLike:   17.89
-	Wind Speed:  2.8
-	Wind Degree:    243
+	Humidity:    71
+	FeelsLike:   16.79
+	Wind Speed:  2.07
+	Wind Degree:    227
 	Sunrise:     1787109630 Unixtime
 	Sunset:      1787160533 Unixtime
 Weather Forecast for Verkhovyna:
 Date & Time: 2026-08-19 18:00:00 +0000 UTC
 Conditions:  Clouds scattered clouds
-Temp:        17.61 
-High:        17.61 
-Low:         13.48
+Temp:        14.78 
+High:        14.78 
+Low:         14.78
 
 Date & Time: 2026-08-19 21:00:00 +0000 UTC
 Conditions:  Clouds scattered clouds
-Temp:        14.12 
-High:        14.12 
-Low:         11.35
+Temp:        13.85 
+High:        13.85 
+Low:         11.98
 
 Date & Time: 2026-08-20 00:00:00 +0000 UTC
 Conditions:  Clouds scattered clouds
-Temp:        11.53 
-High:        11.53 
+Temp:        12.61 
+High:        12.61 
 Low:         11.53
 
 Date & Time: 2026-08-20 03:00:00 +0000 UTC

@@ -1,32 +1,32 @@
 Current weather for Yasinia:
     Conditions:  broken clouds 
-    Now:         18.93 metric
-    High:        18.93 metric
-    Low:         18.93 metric
-	Pressure:    1014
-	Humidity:    70
-	FeelsLike:   18.71
-	Wind Speed:  2.89
-	Wind Degree:    226
+    Now:         17.91 metric
+    High:        17.91 metric
+    Low:         17.91 metric
+	Pressure:    1015
+	Humidity:    75
+	FeelsLike:   17.71
+	Wind Speed:  2.41
+	Wind Degree:    217
 	Sunrise:     1787109718 Unixtime
 	Sunset:      1787160651 Unixtime
 Weather Forecast for Yasinia:
 Date & Time: 2026-08-19 18:00:00 +0000 UTC
-Conditions:  Clouds overcast clouds
-Temp:        18.32 
-High:        18.32 
-Low:         15.38
+Conditions:  Clouds broken clouds
+Temp:        16.5 
+High:        16.5 
+Low:         16.5
 
 Date & Time: 2026-08-19 21:00:00 +0000 UTC
-Conditions:  Clouds scattered clouds
-Temp:        15.05 
-High:        15.05 
-Low:         12.68
+Conditions:  Clouds broken clouds
+Temp:        15.41 
+High:        15.41 
+Low:         13.24
 
 Date & Time: 2026-08-20 00:00:00 +0000 UTC
-Conditions:  Clouds few clouds
-Temp:        12.64 
-High:        12.64 
+Conditions:  Clouds scattered clouds
+Temp:        13.93 
+High:        13.93 
 Low:         12.64
 
 Date & Time: 2026-08-20 03:00:00 +0000 UTC

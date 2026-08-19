@@ -1,32 +1,32 @@
 Current weather for Vorokhta:
-    Conditions:  broken clouds 
-    Now:         19.36 metric
-    High:        19.36 metric
-    Low:         19.36 metric
+    Conditions:  scattered clouds 
+    Now:         18.12 metric
+    High:        18.12 metric
+    Low:         18.12 metric
 	Pressure:    1014
-	Humidity:    65
-	FeelsLike:   19.05
-	Wind Speed:  2.91
-	Wind Degree:    234
+	Humidity:    74
+	FeelsLike:   17.92
+	Wind Speed:  2.2
+	Wind Degree:    219
 	Sunrise:     1787109665 Unixtime
 	Sunset:      1787160603 Unixtime
 Weather Forecast for Vorokhta:
 Date & Time: 2026-08-19 18:00:00 +0000 UTC
-Conditions:  Clouds broken clouds
-Temp:        18.42 
-High:        18.42 
-Low:         14.63
+Conditions:  Clouds scattered clouds
+Temp:        15.89 
+High:        15.89 
+Low:         15.89
 
 Date & Time: 2026-08-19 21:00:00 +0000 UTC
 Conditions:  Clouds scattered clouds
-Temp:        15.29 
-High:        15.29 
-Low:         12.77
+Temp:        15.04 
+High:        15.04 
+Low:         13.34
 
 Date & Time: 2026-08-20 00:00:00 +0000 UTC
-Conditions:  Clouds few clouds
-Temp:        12.85 
-High:        12.85 
+Conditions:  Clouds scattered clouds
+Temp:        13.86 
+High:        13.86 
 Low:         12.85
 
 Date & Time: 2026-08-20 03:00:00 +0000 UTC
