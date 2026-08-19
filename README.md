@@ -13,6 +13,30 @@ spawns **replanner subagents** for `no_go` days, merges and re-validates, and
 produces a final plan with a visible value trace from raw forecast text to the
 decision.
 
+## Try it in one command (no API keys needed)
+
+```powershell
+python -m venv .venv
+.venv\Scripts\pip install -r requirements.txt
+.venv\Scripts\python scripts\walkthrough.py demo\itinerary_storm.json --fixtures scenario_storm
+```
+
+That runs the whole planning workflow against a recorded forecast — validate,
+score each day, replan the dangerous one, estimate logistics — with no LLM and no
+credentials:
+
+```
+[2] day 2 2026-08-21  NESAMOVYTE -> BYSTRETS  (10.2 km, 500 m)
+    forecast: 2026-08-21 conditions='Thunderstorm thunderstorm with heavy rain' ...
+    risk: 100 no_go
+      +70  thunderstorm_on_exposed_ridge: Thunderstorm forecast on an exposed ridge.
+      +35  wet_exposed_ridge: 25.0 mm precipitation on an exposed ridge at 2036 m: ...
+[3] day 2 is no_go - replanning
+    chose ['CH-022', 'CH-014'] (9.3 km) -> 60 caution [relaxation: none]
+```
+
+Full walkthrough with live weather and the agent: **[docs/quickstart.md](docs/quickstart.md)**.
+
 ## Prerequisites
 
 - Python 3.12+ (tested on 3.13)
@@ -132,10 +156,25 @@ tests for every contract and correctness bug found during review.
 
 ## Documentation
 
-- [docs/tool_contracts.md](docs/tool_contracts.md) — full Part C contracts for
-  all four custom tools and the observed `weather` contract.
-- [docs/design_rationale.md](docs/design_rationale.md) — boundary decisions,
-  trade-offs, limitations.
-- [docs/defence_script.md](docs/defence_script.md) — timed demo script.
-- [data/PROVENANCE.md](data/PROVENANCE.md) — dataset origin and reproduction
-  (`scripts/build_dataset.py` regenerates it).
+Start at the **[documentation index](docs/README.md)**.
+
+| Doc | Answers |
+|---|---|
+| [Quickstart](docs/quickstart.md) | How do I get this running? |
+| [Architecture](docs/architecture.md) | How is it put together, and where does each result go? |
+| [Tool contracts](docs/tool_contracts.md) | What exactly does each tool accept and return? |
+| [Design rationale](docs/design_rationale.md) | Why this way, and what are the limitations? |
+| [Troubleshooting](docs/troubleshooting.md) | Why isn't it behaving as documented? |
+| [Defence script](docs/defence_script.md) | How is it demonstrated? |
+| [Dataset provenance](data/PROVENANCE.md) | Where did the trail data come from? |
+
+## Scripts
+
+| Script | Purpose |
+|---|---|
+| `scripts/walkthrough.py` | Run the whole domain workflow deterministically, no LLM or credentials |
+| `scripts/smoke_custom_server.py` | Start the custom server in a separate process, list and call its tools |
+| `scripts/smoke_weather_server.py` | Call the existing OpenWeather MCP server (needs a key) |
+| `scripts/fetch_fixtures.py` | Record genuine API responses for offline replay |
+| `scripts/replay_weather_server.py` | Serve recorded fixtures under the same `weather` contract |
+| `scripts/build_dataset.py` | Regenerate the trail dataset deterministically |
